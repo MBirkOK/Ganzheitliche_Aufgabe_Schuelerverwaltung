@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.0//EN"
+        "https://checkstyle.org/dtds/suppressions_1_0.dtd">
+
+<suppressions>
+    <!-- This is required to suppress false positives of the dependency "spotbugs" which scans for the annotation
+    with exactly this naming convention which breaks the current checkstyle rule -->
+    <suppress checks="TypeNameCheck"
+              files="SuppressFBWarnings.java"/>
+    <suppress checks="NewlineAtEndOfFile" files="SupressFBWarnings.java"/>
+    <suppress checks="RegexpSingleline" files="SupressFBWarnings.java"/>
+
+</suppressions>

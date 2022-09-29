@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact name="Ganzheitliche Aufgabe Schuelerverwaltung:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Ganzheitliche_Aufgabe_Schuelerverwaltung_jar</output-path>
+    <root id="root">
+      <element id="archive" name="Ganzheitliche Aufgabe Schuelerverwaltung.jar">
+        <element id="module-output" name="Ganzheitliche Aufgabe Schuelerverwaltung" />
+        <element id="module-output" name="application" />
+        <element id="module-output" name="domain" />
+      </element>
+    </root>
+  </artifact>
+</component>
