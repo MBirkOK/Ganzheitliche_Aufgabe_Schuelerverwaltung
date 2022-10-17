@@ -1,7 +1,5 @@
 package de.openknowlegde.ausbildung.mbi.domain.entities;
 
-import java.util.Arrays;
-
 /**
  * Phone is a Value Object, which holds important information about the phone number of a human.
  */
