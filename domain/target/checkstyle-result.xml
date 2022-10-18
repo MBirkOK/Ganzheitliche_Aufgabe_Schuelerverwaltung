@@ -17,8 +17,6 @@
 <file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\entities\Name.java">
 </file>
 <file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\entities\Phone.java">
-<error line="3" column="8" severity="error" message="Nicht verwendeter Import - java.util.Arrays." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="58" column="34" severity="error" message="Die Variable &apos;number&apos; verbirgt ein Feld." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
 </file>
 <file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\entities\Student.java">
 </file>

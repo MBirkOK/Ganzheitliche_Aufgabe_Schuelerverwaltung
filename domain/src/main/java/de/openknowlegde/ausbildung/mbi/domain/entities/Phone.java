@@ -53,7 +53,7 @@ public class Phone {
         return new String[] {number};
     }
 
-    private void validate(String number) {
+    private void validate(String ignoredNumber) {
         //TODO Validate Phonenumber
     }
 
