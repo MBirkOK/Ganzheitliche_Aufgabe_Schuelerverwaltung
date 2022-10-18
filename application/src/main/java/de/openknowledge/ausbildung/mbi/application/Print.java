@@ -261,7 +261,7 @@ public class Print {
             do {
                 System.out.println("Soll ein bestimmtes Format eingehalten werden?");
                 format = reader.readLine();
-            } while (format.isEmpty() || format.isBlank() || !Charset.isSupported(format));
+            } while (format.isEmpty() || isBlank(format) || !Charset.isSupported(format));
         } catch (Exception e) {
             chooseFileFormat();
         }
@@ -503,6 +503,15 @@ public class Print {
 
     public static boolean yesNo() throws IOException {
         return reader.readLine().toLowerCase(Locale.ROOT).equals(Y);
+    }
+
+    private static boolean isBlank(String charset) {
+        charset.replaceAll("\\s", "");
+        charset.trim();
+        if (charset.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
 }

@@ -5,9 +5,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -289,7 +290,7 @@ public class FileManagement {
 
     private void writeFile(String[][] csvMatrix, File file, String format) throws IOException {
         if (file.createNewFile()) {
-            FileWriter pw = new FileWriter(file, Charset.forName(format));
+            PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), Charset.forName(format)));
             for (int i = 0; i < csvMatrix.length; i++) {
                 for (int j = 0; j < csvMatrix[i].length; j++) {
                     if (csvMatrix[i][j] != null) {
