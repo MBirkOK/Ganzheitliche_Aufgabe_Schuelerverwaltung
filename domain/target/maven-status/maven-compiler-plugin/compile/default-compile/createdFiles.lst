@@ -1,0 +1,12 @@
+de\openknowlegde\ausbildung\mbi\domain\data\City.class
+module-info.class
+de\openknowlegde\ausbildung\mbi\domain\data\LastNames.class
+de\openknowlegde\ausbildung\mbi\domain\entities\Class.class
+de\openknowlegde\ausbildung\mbi\domain\entities\Teacher.class
+de\openknowlegde\ausbildung\mbi\domain\entities\Student.class
+de\openknowlegde\ausbildung\mbi\domain\data\Street.class
+de\openknowlegde\ausbildung\mbi\domain\entities\Phone.class
+de\openknowlegde\ausbildung\mbi\domain\entities\Adress.class
+de\openknowlegde\ausbildung\mbi\domain\abstractclass\Human.class
+de\openknowlegde\ausbildung\mbi\domain\data\FirstNames.class
+de\openknowlegde\ausbildung\mbi\domain\entities\Name.class
