@@ -214,6 +214,7 @@ public class Actions {
             return new Adress(street, houseNumber, Integer.parseInt(zipCode), city);
         } catch (Exception e) {
             System.out.println(PLEASE_REPEAT_INPUT);
+            int i = 0;
             String parts = Print.inputAdress();
             String[] adressParts = parts.split(BLANKSPACE);
             return createAdress(adressParts[0], adressParts[1], adressParts[2], adressParts[THREE]);
