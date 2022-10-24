@@ -71,7 +71,7 @@ public class FileManagement {
      * With the help of the method, teachers should be able to be imported as easily as possible. The passed path serves as location where
      * the file is located. The path must also contain the file name and extension. A valid path can have the following format
      * "C://xxx/xxx/xxx/xx.csv". The method is overloaded by another variant, which is, however, set private and is only used within
-     * start.FileManagement.
+     * start.
      *
      * @param path
      *   path with file name and filetype
