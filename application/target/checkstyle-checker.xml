@@ -30,13 +30,13 @@
         <property name="fileExtensions" value="java"/>
     </module>-->
 
-    <module name="RegexpSingleline">
-        <!-- . matches any character, so we need to
-          escape it and use \. to match dots. -->
-        <property name="id" value="sysout"/>
-        <property name="format" value="System\.out\."/>
-        <property name="message" value="Illegal use of System.out. - use a logger instead!"/>
-    </module>
+    <!--<module name="RegexpSingleline">-->
+    <!--     . matches any character, so we need to-->
+    <!--      escape it and use \. to match dots. -->
+    <!--    <property name="id" value="sysout"/>-->
+    <!--    <property name="format" value="System\.out\."/>-->
+    <!--    <property name="message" value="Illegal use of System.out. - use a logger instead!"/>-->
+    <!--</module>-->
 
     <module name="RegexpSingleline">
         <!-- . matches any character, so we need to
