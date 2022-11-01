@@ -11,4 +11,5 @@
               files="SuppressFBWarnings.java"/>
     <suppress checks="NewlineAtEndOfFile" files="SupressFBWarnings.java"/>
     <suppress checks="RegexpSingleline" files="SupressFBWarnings.java"/>
+
 </suppressions>

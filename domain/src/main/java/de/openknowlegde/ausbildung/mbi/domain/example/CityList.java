@@ -1,4 +1,4 @@
-package de.openknowlegde.ausbildung.mbi.domain.exampleData;
+package de.openknowlegde.ausbildung.mbi.domain.example;
 
 public enum CityList {
   Aach_bei_Trier, Aach_Hegau,

@@ -1,4 +1,4 @@
-package de.openknowlegde.ausbildung.mbi.domain.adressingObjects;
+package de.openknowlegde.ausbildung.mbi.domain.adressing;
 
 import java.util.Objects;
 

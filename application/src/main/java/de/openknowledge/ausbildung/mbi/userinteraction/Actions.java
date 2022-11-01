@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.City;
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.HouseNumber;
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.Street;
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.Zip;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.City;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.HouseNumber;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.Street;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.Zip;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Adress;
@@ -137,7 +137,8 @@ public class Actions {
                 adresses.add(createAdress(adressParts[0], adressParts[1], adressParts[2], adressParts[THREE]));
                 String[] birthday = inputs[FOUR].split(MINUS);
 
-                studentList.add(new Student(UUID.randomUUID(), new Name(inputs[0]), new Name(inputs[1]), phone, adresses, createBirthday(birthday)));
+                studentList.add(new Student(UUID.randomUUID(), new Name(inputs[0]), new Name(inputs[1]), phone,
+                    adresses, createBirthday(birthday)));
 
                 return studentList;
             case DELETE:

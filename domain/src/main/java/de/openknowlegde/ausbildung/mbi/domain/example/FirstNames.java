@@ -1,4 +1,4 @@
-package de.openknowlegde.ausbildung.mbi.domain.exampleData;
+package de.openknowlegde.ausbildung.mbi.domain.example;
 
 public enum FirstNames {
     Abbo, Affo, Bonno, Dieko, Enno, Habbo, Krino, Lübbo, Manno, Matjes, Menno, Okko, Onno, Tammo, Tido, Tjarko, Ubbo, Wilko, Aeilt, Ayelt,

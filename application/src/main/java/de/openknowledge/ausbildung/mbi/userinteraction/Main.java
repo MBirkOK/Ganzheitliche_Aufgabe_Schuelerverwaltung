@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.openknowlegde.ausbildung.mbi.domain.exampleData.FirstNames;
-import de.openknowlegde.ausbildung.mbi.domain.exampleData.LastNames;
+import de.openknowlegde.ausbildung.mbi.domain.example.FirstNames;
+import de.openknowlegde.ausbildung.mbi.domain.example.LastNames;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;

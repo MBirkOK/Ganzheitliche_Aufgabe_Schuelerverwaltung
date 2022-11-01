@@ -1,4 +1,4 @@
-package de.openknowlegde.ausbildung.mbi.domain.exampleData;
+package de.openknowlegde.ausbildung.mbi.domain.example;
 
 public enum StreetList {
   Hauptstraße, Schulstraße, Gartenstraße, Bahnhofstraße, DorfstraßeBergstraße,

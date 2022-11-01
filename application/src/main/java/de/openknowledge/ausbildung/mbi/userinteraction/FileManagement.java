@@ -26,10 +26,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.City;
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.HouseNumber;
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.Street;
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.Zip;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.City;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.HouseNumber;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.Street;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.Zip;
 import de.openknowlegde.ausbildung.mbi.domain.person.Human;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;

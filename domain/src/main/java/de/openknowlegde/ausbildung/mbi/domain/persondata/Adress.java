@@ -3,12 +3,12 @@ package de.openknowlegde.ausbildung.mbi.domain.persondata;
 import java.security.SecureRandom;
 import java.util.Objects;
 
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.City;
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.HouseNumber;
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.Street;
-import de.openknowlegde.ausbildung.mbi.domain.adressingObjects.Zip;
-import de.openknowlegde.ausbildung.mbi.domain.exampleData.CityList;
-import de.openknowlegde.ausbildung.mbi.domain.exampleData.StreetList;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.City;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.HouseNumber;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.Street;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.Zip;
+import de.openknowlegde.ausbildung.mbi.domain.example.CityList;
+import de.openknowlegde.ausbildung.mbi.domain.example.StreetList;
 
 
 /**

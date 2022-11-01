@@ -1,13 +1,17 @@
-#Tue Oct 25 14:16:28 CEST 2022
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\data\\FirstNames.java=1661507468160
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\data\\LastNames.java=1661507468358
-configuration*?=41472D58430B221E734D7E2E4FD6F17387B430A0
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\entities\\Class.java=1661507468477
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\entities\\Student.java=1666685856551
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\data\\Street.java=1661507468389
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\entities\\Name.java=1661507468302
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\abstractclass\\Human.java=1666687332964
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\entities\\Teacher.java=1661507468565
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\entities\\Adress.java=1661507468536
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\entities\\Phone.java=1666079622019
-C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\data\\City.java=1661507468419
+#Tue Nov 01 14:27:55 CET 2022
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\adressing\\City.java=1667308708189
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\adressing\\HouseNumber.java=1667308708217
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\adressing\\Street.java=1667308708161
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\adressing\\Zip.java=1667308708132
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\example\\CityList.java=1667308732671
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\example\\FirstNames.java=1667308732700
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\example\\LastNames.java=1667308732643
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\example\\StreetList.java=1667308732727
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\person\\Human.java=1667291014401
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\person\\Student.java=1666948912278
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\person\\Teacher.java=1667290243867
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\persondata\\Adress.java=1667308732753
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\persondata\\Name.java=1667293371302
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\persondata\\Phone.java=1667293371275
+C\:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche\ Aufgabe\ Schuelerverwaltung\\domain\\src\\main\\java\\de\\openknowlegde\\ausbildung\\mbi\\domain\\persondata\\SchoolClass.java=1667292791018
+configuration*?=3A984EFDDA221B4CB24759D43ABD9022E399EB8

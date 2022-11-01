@@ -1,12 +1,12 @@
-package de.openknowlegde.ausbildung.mbi.domain.adressingObjects;
+package de.openknowlegde.ausbildung.mbi.domain.adressing;
 
 import java.util.Objects;
 
-public class HouseNumber implements Comparable<HouseNumber> {
+public class Zip implements Comparable<Zip> {
 
     int number;
 
-    public HouseNumber(int number) {
+    public Zip(int number) {
         this.number = number;
     }
 
@@ -26,8 +26,8 @@ public class HouseNumber implements Comparable<HouseNumber> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        HouseNumber that = (HouseNumber)o;
-        return number == that.number;
+        Zip zip = (Zip)o;
+        return number == zip.number;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class HouseNumber implements Comparable<HouseNumber> {
 
 
     @Override
-    public int compareTo(HouseNumber that) {
+    public int compareTo(Zip that) {
         if (this.getNumber() != that.getNumber()) {
             return (this.getNumber() < that.getNumber() ? -1 : 1);
         }
