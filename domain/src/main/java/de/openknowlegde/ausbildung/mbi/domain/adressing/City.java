@@ -16,8 +16,13 @@ public class City implements Comparable<City> {
         return name;
     }
 
-    public void setName(Name name) {
-        this.name = name;
+    public Name changeName(Name newName) {
+        if (this.name.valid(newName.getValue())) {
+            this.name = newName;
+        } else {
+            throw new IllegalArgumentException("Name nicht valide.");
+        }
+        return new Name(this.name.getValue());
     }
 
     @Override

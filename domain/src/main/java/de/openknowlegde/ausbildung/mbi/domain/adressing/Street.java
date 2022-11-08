@@ -16,8 +16,13 @@ public class Street implements Comparable<Street> {
         return street;
     }
 
-    public void setStreet(Name street) {
-        this.street = street;
+    public Name changeStreet(Name updatedStreet) {
+        if (this.street.valid(updatedStreet.getValue())) {
+            this.street = updatedStreet;
+        } else {
+            throw new IllegalArgumentException("Name nicht valide.");
+        }
+        return new Name(this.street.getValue());
     }
 
     public Street fromString(String newStreet) {

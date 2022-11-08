@@ -1,12 +1,12 @@
 package de.openknowlegde.ausbildung.mbi.domain.person;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Adress;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Birthday;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
 
@@ -28,26 +28,20 @@ public abstract class Human implements Comparable<Human> {
 
     private Set<Adress> adress;
 
-    private LocalDate birthday;
+    private Birthday birthday;
 
     /**
      * Standard constructor for the human class. This constructor is used indirectly for teachers and students and gets the most important
      * information.
      *
-     * @param number
-     *   used as an ID
-     * @param firstName
-     *   firstname of the person
-     * @param lastName
-     *   last name of the person
-     * @param phone
-     *   a list of phone numbers of the person
-     * @param adress
-     *   a list of adresses of the person
-     * @param birthday
-     *   a birthday as LocalDate standart
+     * @param number    used as an ID
+     * @param firstName firstname of the person
+     * @param lastName  last name of the person
+     * @param phone     a list of phone numbers of the person
+     * @param adress    a list of adresses of the person
+     * @param birthday  a birthday as LocalDate standart
      */
-    public Human(UUID number, Name firstName, Name lastName, Set<Phone> phone, Set<Adress> adress, LocalDate birthday) {
+    public Human(UUID number, Name firstName, Name lastName, Set<Phone> phone, Set<Adress> adress, Birthday birthday) {
         this.number = number;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,8 +69,7 @@ public abstract class Human implements Comparable<Human> {
     /**
      * This method first checks if a valid List of phone numbers exists and then adds the given number.
      *
-     * @param additionalPhone
-     *   phone number to be added
+     * @param additionalPhone phone number to be added
      */
     public void addPhone(Phone additionalPhone) {
         if (this.phone == null) {
@@ -96,8 +89,7 @@ public abstract class Human implements Comparable<Human> {
     /**
      * This method first checks if a valid List of adress' exists and then adds the given adress.
      *
-     * @param additionalAdress
-     *   adress to be added
+     * @param additionalAdress adress to be added
      */
     public void addAdress(Adress additionalAdress) {
         if (this.adress == null) {
@@ -112,23 +104,16 @@ public abstract class Human implements Comparable<Human> {
         this.adress.remove(toRemove);
     }
 
-    public LocalDate getBirthday() {
+    public Birthday getBirthday() {
         return birthday;
-    }
-
-    private void changeBirthday(LocalDate changedDay) {
-        //TODO validiere das Datum und wirf Exception -> Was wird gebraucht um ein valides Geburtsdatum zu bauen?
-        this.birthday = changedDay;
     }
 
     /**
      * In this method, essential data about the person are changed. A distinction is made via the type passed. The first name, last name and
      * date of birth can be changed.
      *
-     * @param type
-     *   type of data, that will be changed
-     * @param value
-     *   the new value
+     * @param type  type of data, that will be changed
+     * @param value the new value
      */
 
     public void changePersonalData(String type, String value) {
@@ -138,13 +123,6 @@ public abstract class Human implements Comparable<Human> {
                 break;
             case "Nachname":
                 this.getLastName().changeValue(value);
-                break;
-            case "Geburtsdatum":
-                String[] newBirthday = value.split("-");
-                int day = Integer.parseInt(newBirthday[0]);
-                int month = Integer.parseInt(newBirthday[1]);
-                int year = Integer.parseInt(newBirthday[2]);
-                this.changeBirthday(LocalDate.of(day, month, year));
                 break;
             default:
                 break;
@@ -161,8 +139,8 @@ public abstract class Human implements Comparable<Human> {
         }
         Human human = (Human)o;
         return Objects.equals(number, human.number) && Objects.equals(firstName, human.firstName)
-                && Objects.equals(lastName, human.lastName) && Objects.equals(phone, human.phone)
-                && Objects.equals(adress, human.adress) && Objects.equals(birthday, human.birthday);
+            && Objects.equals(lastName, human.lastName) && Objects.equals(phone, human.phone)
+            && Objects.equals(adress, human.adress) && Objects.equals(birthday, human.birthday);
     }
 
     @Override
@@ -184,5 +162,28 @@ public abstract class Human implements Comparable<Human> {
         }
 
         return this.getLastName().compareTo(that.getLastName());
+    }
+
+    public boolean validate(Human human) {
+        if (human.getBirthday().toString().isEmpty() || human.getFirstName().isValid() || human.getLastName().isValid()
+            || areSetsEmpty(human.getAdress(), human.getPhone())) {
+            throw new IllegalArgumentException("Human nicht valide.");
+        } else {
+            return true;
+        }
+    }
+
+    public boolean areSetsEmpty(Set<Adress> adresses, Set<Phone> phones) {
+        if (adresses.isEmpty() || phones.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isValid() {
+        if (validate(this)) {
+            return true;
+        }
+        return false;
     }
 }

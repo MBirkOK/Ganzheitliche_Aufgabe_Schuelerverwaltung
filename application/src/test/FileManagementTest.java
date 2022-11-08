@@ -1,5 +1,5 @@
 import de.openknowledge.ausbildung.mbi.userinteraction.FileManagement;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.SchoolClass;
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
 import org.junit.Assert;
@@ -12,9 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class FileManagementTest {
 

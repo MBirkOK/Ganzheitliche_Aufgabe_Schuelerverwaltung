@@ -16,7 +16,7 @@ import de.openknowlegde.ausbildung.mbi.domain.example.LastNames;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.SchoolClass;
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 
 @SuppressWarnings("checkstyle:RegexpSingleline")
 public class Main {

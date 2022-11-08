@@ -1,10 +1,11 @@
-package de.openknowlegde.ausbildung.mbi.domain.persondata;
+package de.openknowlegde.ausbildung.mbi.domain.school;
 
 import java.util.List;
 import java.util.Objects;
 
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
 
 /**
  * The class of the class is used to represent a school class. It is important that each class has a name, a description, a level, a teacher
@@ -13,9 +14,9 @@ import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
 public class SchoolClass implements Comparable<SchoolClass> {
     private Name name;
 
-    private String description;
+    private Description description;
 
-    private String level;
+    private Level level;
 
     private Teacher teacher;
 
@@ -31,7 +32,7 @@ public class SchoolClass implements Comparable<SchoolClass> {
      * @param teacher     the primary teacher of the class
      * @param students    a list of students in the class
      */
-    public SchoolClass(Name name, String description, String level, Teacher teacher, List<Student> students) {
+    public SchoolClass(Name name, Description description, Level level, Teacher teacher, List<Student> students) {
         this.name = name;
         this.description = description;
         this.level = level;
@@ -47,47 +48,48 @@ public class SchoolClass implements Comparable<SchoolClass> {
         this.name = name;
     }
 
-    public String getDescription() {
+    public Description getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(Description description) {
         this.description = description;
     }
 
-    public String getLevel() {
+    public Level getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public Level setLevel(Level newLevel) {
+        this.level = newLevel;
+        return this.level;
     }
 
     public Teacher getTeacher() {
         return teacher;
     }
 
-    //TODO setTeacher vs addTeacher
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+    public Teacher changeTeacher(Teacher updatingTeacher) {
+        if (teacher.isValid()) {
+            this.teacher = updatingTeacher;
+            return this.teacher;
+        } else {
+            throw new IllegalArgumentException("Lehrer nicht valide.");
+        }
     }
 
     public List<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public List<Student> changeStudents(List<Student> updatingStudents) {
+        if (this.students.containsAll(updatingStudents)) {
+            return this.students;
+        }
+        this.students = updatingStudents;
+        return this.students;
     }
 
-    //TODO setTeacher vs addTeacher
-    public boolean addTeacher(Teacher additionalTeacher) {
-        if (getTeacher() != null) {
-            return false;
-        }
-        this.setTeacher(additionalTeacher);
-        return true;
-    }
 
     /**
      * Overwrite the method from the interface Comparable.
@@ -110,7 +112,7 @@ public class SchoolClass implements Comparable<SchoolClass> {
         }
         SchoolClass that = (SchoolClass)o;
         return Objects.equals(name, that.name) && Objects.equals(description, that.description)
-                && Objects.equals(level, that.level) && Objects.equals(teacher, that.teacher) && Objects.equals(students, that.students);
+            && Objects.equals(level, that.level) && Objects.equals(teacher, that.teacher) && Objects.equals(students, that.students);
     }
 
     @Override
@@ -120,7 +122,7 @@ public class SchoolClass implements Comparable<SchoolClass> {
 
     private boolean validate(SchoolClass schoolClass) {
         if (checkLists(schoolClass.getTeacher(), schoolClass.getStudents()) || checkClassData(schoolClass.getName(),
-            schoolClass.getDescription(), schoolClass.getLevel())) {
+            schoolClass.getDescription().getValue(), schoolClass.getLevel().getValue())) {
             return false;
         }
         return true;

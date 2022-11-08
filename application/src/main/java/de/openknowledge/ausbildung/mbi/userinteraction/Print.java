@@ -12,7 +12,9 @@ import de.openknowlegde.ausbildung.mbi.domain.person.Human;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.SchoolClass;
+import de.openknowlegde.ausbildung.mbi.domain.school.Description;
+import de.openknowlegde.ausbildung.mbi.domain.school.Level;
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 
 /**
  * The start.Print class is used to produce various outputs with context to the classes, teachers or students.
@@ -102,8 +104,8 @@ public class Print {
     public static void printTableClassDetails(SchoolClass print) {
         int amount = print.getStudents().size() + FOUR;
         final Object[][] table = new String[amount][];
-        table[0] = new String[] {"Stufe", print.getLevel()};
-        table[1] = new String[] {"Beschreibung", print.getDescription()};
+        table[0] = new String[] {"Stufe", print.getLevel().toString()};
+        table[1] = new String[] {"Beschreibung", print.getDescription().getValue()};
         table[2] = new String[] {"Name", print.getName().getValue()};
         System.out.println(print.getTeacher().getFirstName().getValue());
         table[THREE] = new String[] {TEACHER,
@@ -150,7 +152,7 @@ public class Print {
         final Object[][] table = new String[schoolClasses.size()][];
         int i = 0;
         for (SchoolClass schoolClass: schoolClasses) {
-            table[i] = new String[] {"Klasse", schoolClass.getName().getValue(), schoolClass.getLevel(),
+            table[i] = new String[] {"Klasse", schoolClass.getName().getValue(), schoolClass.getLevel().toString(),
               schoolClass.getTeacher().getFirstName().getValue() + BLANKSPACE + schoolClass.getTeacher().getLastName().getValue()};
             i++;
         }
@@ -359,7 +361,7 @@ public class Print {
             if (inList.getName().equals(schoolClass)) {
                 for (Teacher teacherInList: teacherList) {
                     if (teacherInList.getNumber().toString().equals(teacher)) {
-                        inList.setTeacher(teacherInList);
+                        inList.changeTeacher(teacherInList);
                         return teacherInList;
                     }
                 }
@@ -383,7 +385,7 @@ public class Print {
         String level = reader.readLine();
         for (SchoolClass schoolClass: schoolClassList) {
             if (schoolClass.getName().equals(className)) {
-                schoolClass.setLevel(level);
+                schoolClass.setLevel(new Level(level));
             }
         }
         return level;
@@ -405,7 +407,7 @@ public class Print {
         String description = reader.readLine();
         for (SchoolClass schoolClass: schoolClassList) {
             if (schoolClass.getName().equals(className)) {
-                schoolClass.setDescription(description);
+                schoolClass.setDescription(new Description(description));
             }
         }
         return description;

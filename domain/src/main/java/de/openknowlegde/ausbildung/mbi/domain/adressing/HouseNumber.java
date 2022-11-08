@@ -14,8 +14,9 @@ public class HouseNumber implements Comparable<HouseNumber> {
         return number;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public int changeNumber(int updatedNumber) {
+        this.number = updatedNumber;
+        return this.number;
     }
 
     @Override
@@ -39,7 +40,7 @@ public class HouseNumber implements Comparable<HouseNumber> {
     @Override
     public int compareTo(HouseNumber that) {
         if (this.getNumber() != that.getNumber()) {
-            return (this.getNumber() < that.getNumber() ? -1 : 1);
+            return (this.getNumber() < that.getNumber() ? - 1 : 1);
         }
 
         return 0;

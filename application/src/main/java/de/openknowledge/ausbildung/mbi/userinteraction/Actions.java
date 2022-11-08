@@ -16,9 +16,11 @@ import de.openknowlegde.ausbildung.mbi.domain.adressing.Zip;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Adress;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Birthday;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.SchoolClass;
+import de.openknowlegde.ausbildung.mbi.domain.school.Level;
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 
 /**
  * The class is used to perform various actions on the Student, Teacher and Class objects. Besides editing, adding and listing, it is also
@@ -88,7 +90,7 @@ public class Actions {
                 String[] classData = new String[] {Print.addDescription(schoolClassList), Print.addLevel(schoolClassList)};
                 Teacher teacherInClass = Print.addTeacherToClass(schoolClassList, teacherList);
                 List<Student> studentsInClass = Print.addStudentsToClass(schoolClassList, studentList);
-                SchoolClass newSchoolClass = new SchoolClass(new Name(chosenName), classData[0], classData[1],
+                SchoolClass newSchoolClass = new SchoolClass(new Name(chosenName), classData[0], new Level(classData[1]),
                         teacherInClass, studentsInClass);
                 schoolClassList.add(newSchoolClass);
 
@@ -234,9 +236,9 @@ public class Actions {
         }
     }
 
-    private static LocalDate createBirthday(String[] birthday) throws IOException {
+    private static Birthday createBirthday(String[] birthday) throws IOException {
         try {
-            return LocalDate.of(Integer.parseInt(birthday[0]), Integer.parseInt(birthday[1]), Integer.parseInt(birthday[2]));
+            return new Birthday(LocalDate.of(Integer.parseInt(birthday[0]), Integer.parseInt(birthday[1]), Integer.parseInt(birthday[2])));
         } catch (Exception e) {
             System.out.println(PLEASE_REPEAT_INPUT);
             String parts = Print.inputBirthday();

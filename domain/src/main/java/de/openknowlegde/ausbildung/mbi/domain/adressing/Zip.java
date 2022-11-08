@@ -14,8 +14,9 @@ public class Zip implements Comparable<Zip> {
         return number;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public int changeNumber(int updatedNumber) {
+        this.number = updatedNumber;
+        return this.number;
     }
 
     @Override

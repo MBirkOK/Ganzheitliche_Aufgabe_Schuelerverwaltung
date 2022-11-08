@@ -36,14 +36,10 @@ public class Adress {
      * Used as a default constructor to create an object of type address. The given parameters street, house number, zip code and city are
      * used to store the unique address of the person.
      *
-     * @param street
-     *   the street of the place, where the person lifes
-     * @param houseNumber
-     *   house number of the place
-     * @param zipcode
-     *   postal code where the place is
-     * @param city
-     *   city name to the postal code
+     * @param street      the street of the place, where the person lifes
+     * @param houseNumber house number of the place
+     * @param zipcode     postal code where the place is
+     * @param city        city name to the postal code
      */
     public Adress(Street street, HouseNumber houseNumber, Zip zipcode, City city) {
         this.street = street;
@@ -62,32 +58,36 @@ public class Adress {
         return street;
     }
 
-    public void setStreet(Street street) {
-        this.street = street;
+    public Street changeStreet(Street updatedStreet) {
+        this.street = new Street(updatedStreet.getStreet());
+        return this.street;
     }
 
     public HouseNumber getHouseNumber() {
         return houseNumber;
     }
 
-    public void setHouseNumber(HouseNumber houseNumber) {
-        this.houseNumber = houseNumber;
+    public HouseNumber changeHouseNumber(HouseNumber updatedHouseNumber) {
+        this.houseNumber = new HouseNumber(updatedHouseNumber.getNumber());
+        return this.houseNumber;
     }
 
     public Zip getZipcode() {
         return zipcode;
     }
 
-    public void setZipcode(Zip zipcode) {
-        this.zipcode = zipcode;
+    public Zip changeZipcode(Zip updatedZip) {
+        this.zipcode = new Zip(updatedZip.getNumber());
+        return this.zipcode;
     }
 
     public City getCity() {
         return city;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public City changeCity(City updatedCity) {
+        this.city = new City(updatedCity.getName());
+        return this.city;
     }
 
     /**
@@ -114,7 +114,7 @@ public class Adress {
         }
         Adress adress = (Adress)o;
         return Objects.equals(street, adress.street) && Objects.equals(houseNumber, adress.houseNumber)
-                && Objects.equals(zipcode, adress.zipcode) && Objects.equals(city, adress.city);
+            && Objects.equals(zipcode, adress.zipcode) && Objects.equals(city, adress.city);
     }
 
     @Override

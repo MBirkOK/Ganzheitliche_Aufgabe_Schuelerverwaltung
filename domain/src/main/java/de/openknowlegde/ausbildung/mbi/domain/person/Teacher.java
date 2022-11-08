@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Adress;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Birthday;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
 
@@ -14,7 +15,7 @@ import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
  */
 
 public class Teacher extends Human {
-    public Teacher(UUID number, Name firstName, Name lastName, Set<Phone> phone, Set<Adress> adress, LocalDate birthday) {
+    public Teacher(UUID number, Name firstName, Name lastName, Set<Phone> phone, Set<Adress> adress, Birthday birthday) {
         super(number, firstName, lastName, phone, adress, birthday);
     }
 

@@ -34,9 +34,12 @@ import de.openknowlegde.ausbildung.mbi.domain.person.Human;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Adress;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Birthday;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.SchoolClass;
+import de.openknowlegde.ausbildung.mbi.domain.school.Description;
+import de.openknowlegde.ausbildung.mbi.domain.school.Level;
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 
 /**
  * The FileManagament is used to manage files that are intended for either export or import. Also, an automatic import of the files is
@@ -137,12 +140,13 @@ public class FileManagement {
                 LocalDate birthdate = LocalDate.of(Integer.parseInt(birthday[0]), Integer.parseInt(birthday[1]),
                     Integer.parseInt(birthday[2]));
                 Teacher teacherToAdd = new Teacher(UUID.fromString(lineArray[0]), new Name(lineArray[1]),
-                    new Name(lineArray[2]), null, adresses, birthdate);
+                    new Name(lineArray[2]), null, adresses, new Birthday(birthdate));
 
                 teacherList.add(teacherToAdd);
             }
             return teacherList;
         } catch (Exception e) {
+            System.out.println(e);
             return importTeachers(Actions.createPath(Print.inputPath()));
         }
     }
@@ -184,7 +188,7 @@ public class FileManagement {
                     LocalDate birthdate = LocalDate.of(day, month, year);
                     UUID uuidFromString = UUID.fromString(lineArray[0]);
                     Teacher teacherToAdd = new Teacher(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]),
-                        phones, adresses, birthdate);
+                        phones, adresses, new Birthday(birthdate));
 
                     teacherList.add(teacherToAdd);
                 }
@@ -227,7 +231,8 @@ public class FileManagement {
                 int year = Integer.parseInt(birthday[2]);
                 LocalDate birthDate = LocalDate.of(day, month, year);
                 UUID uuidFromString = UUID.fromString(lineArray[0]);
-                studentList.add(new Student(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]), null, null, birthDate));
+                studentList.add(new Student(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]), null, null,
+                    new Birthday(birthDate)));
             }
         }
         return studentList;
@@ -246,7 +251,8 @@ public class FileManagement {
                     int year = Integer.parseInt(birthday[2]);
                     LocalDate birthDate = LocalDate.of(day, month, year);
                     UUID uuidFromString = UUID.fromString(lineArray[0]);
-                    studentList.add(new Student(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]), null, null, birthDate));
+                    studentList.add(new Student(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]), null, null,
+                        new Birthday(birthDate)));
                 }
             }
         }
@@ -278,7 +284,7 @@ public class FileManagement {
             for (Teacher teacher : teacherList) {
                 if (teacher.getNumber().toString().equals(lineArray[THREE])) {
                     teacherInArray = new Teacher(teacher.getNumber(), teacher.getFirstName(), teacher.getLastName(),
-                            teacher.getPhone(), teacher.getAdress(), teacher.getBirthday());
+                        teacher.getPhone(), teacher.getAdress(), teacher.getBirthday());
                 }
             }
             List<Student> studentFromFile = new ArrayList<>();
@@ -290,7 +296,8 @@ public class FileManagement {
                 }
             }
             if (lineArray[FOUR].equals(CLASS)) {
-                schoolClasses.add(new SchoolClass(new Name(lineArray[0]), lineArray[2], lineArray[1], teacherInArray, studentFromFile));
+                schoolClasses.add(new SchoolClass(new Name(lineArray[0]), new Description(lineArray[2]), new Level(lineArray[1]),
+                    teacherInArray, studentFromFile));
             }
         }
         return schoolClasses;
@@ -307,7 +314,7 @@ public class FileManagement {
                 for (Teacher teacher : teacherList) {
                     if (teacher.getNumber().toString().equals(lineArray[THREE])) {
                         teacherInArray = new Teacher(teacher.getNumber(), teacher.getFirstName(),
-                                teacher.getLastName(), teacher.getPhone(), teacher.getAdress(), teacher.getBirthday());
+                            teacher.getLastName(), teacher.getPhone(), teacher.getAdress(), teacher.getBirthday());
                     }
                 }
                 List<Student> studentFromFile = new ArrayList<>();
@@ -320,7 +327,8 @@ public class FileManagement {
                 }
 
                 if (lineArray[FOUR].equals(CLASS)) {
-                    schoolClasses.add(new SchoolClass(new Name(lineArray[0]), lineArray[2], lineArray[1], teacherInArray, studentFromFile));
+                    schoolClasses.add(new SchoolClass(new Name(lineArray[0]), new Description(lineArray[2]), new Level(lineArray[1]),
+                        teacherInArray, studentFromFile));
                 }
             }
         }
@@ -532,18 +540,18 @@ public class FileManagement {
             human.addAdress(new Adress().randomAdress());
         }
         String data =
-                human.getAdress().iterator().next().getStreet() + BLANKSPACE
-                        + human.getAdress().iterator().next().getHouseNumber() + BLANKSPACE
-                        + human.getAdress().iterator().next().getZipcode() + BLANKSPACE
-                        + human.getAdress().iterator().next().getCity();
+            human.getAdress().iterator().next().getStreet().getStreet().getValue() + BLANKSPACE
+                + human.getAdress().iterator().next().getHouseNumber().getNumber() + BLANKSPACE
+                + human.getAdress().iterator().next().getZipcode().getNumber() + BLANKSPACE
+                + human.getAdress().iterator().next().getCity().getName().getValue();
 
         return data;
     }
 
     private String[] addClassToArray(String[] data, SchoolClass schoolClass) {
         data[0] = schoolClass.getName().getValue();
-        data[1] = schoolClass.getLevel();
-        data[2] = schoolClass.getDescription();
+        data[1] = schoolClass.getLevel().getValue();
+        data[2] = schoolClass.getDescription().getValue();
         data[THREE] = schoolClass.getTeacher().getNumber().toString();
         data[FOUR] = CLASS;
 
@@ -631,7 +639,7 @@ public class FileManagement {
             Set<Adress> set = new HashSet<>();
             set.add(adress.randomAdress());
 
-            Teacher teacher = new Teacher(generateId(), randomFirstName(), randomLastName(), phones, set, randomDate);
+            Teacher teacher = new Teacher(generateId(), randomFirstName(), randomLastName(), phones, set, new Birthday(randomDate));
             teacherList.add(teacher);
         }
         return teacherList;
@@ -652,7 +660,7 @@ public class FileManagement {
             Set<Adress> set = new HashSet<>();
             set.add(adress.randomAdress());
 
-            studentList.add(new Student(generateId(), randomFirstName(), randomLastName(), phones, set, randomDate));
+            studentList.add(new Student(generateId(), randomFirstName(), randomLastName(), phones, set, new Birthday(randomDate)));
         }
         return studentList;
     }
@@ -668,7 +676,8 @@ public class FileManagement {
                 studentArrayList.add(studentList.get(j));
             }
             SchoolClass cl = new SchoolClass(new Name(c + String.valueOf(randomInt)),
-                "Dies ist eine Schulklasse.", String.valueOf(randomInt), teacherList.get(randomInt), studentList);
+                new Description("Dies ist eine Schulklasse."), new Level(String.valueOf(randomInt)),
+                teacherList.get(randomInt), studentList);
             schoolClasses.add(cl);
         }
         return schoolClasses;
