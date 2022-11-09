@@ -19,6 +19,7 @@ import de.openknowlegde.ausbildung.mbi.domain.persondata.Adress;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Birthday;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
+import de.openknowlegde.ausbildung.mbi.domain.school.Description;
 import de.openknowlegde.ausbildung.mbi.domain.school.Level;
 import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 
@@ -90,7 +91,7 @@ public class Actions {
                 String[] classData = new String[] {Print.addDescription(schoolClassList), Print.addLevel(schoolClassList)};
                 Teacher teacherInClass = Print.addTeacherToClass(schoolClassList, teacherList);
                 List<Student> studentsInClass = Print.addStudentsToClass(schoolClassList, studentList);
-                SchoolClass newSchoolClass = new SchoolClass(new Name(chosenName), classData[0], new Level(classData[1]),
+                SchoolClass newSchoolClass = new SchoolClass(new Name(chosenName), new Description(classData[0]), new Level(classData[1]),
                         teacherInClass, studentsInClass);
                 schoolClassList.add(newSchoolClass);
 

@@ -488,7 +488,7 @@ public class FileManagement {
         data[0] = human.getNumber().toString();
         data[1] = human.getFirstName().getValue();
         data[2] = human.getLastName().getValue();
-        data[THREE] = human.getBirthday().toString();
+        data[THREE] = human.getBirthday().getBirthday().toString();
         if (human instanceof Teacher) {
             data[FOUR] = TEACHER;
             for (SchoolClass schoolClass : schoolClassList) {

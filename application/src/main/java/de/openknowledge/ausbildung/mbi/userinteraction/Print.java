@@ -152,7 +152,7 @@ public class Print {
         final Object[][] table = new String[schoolClasses.size()][];
         int i = 0;
         for (SchoolClass schoolClass: schoolClasses) {
-            table[i] = new String[] {"Klasse", schoolClass.getName().getValue(), schoolClass.getLevel().toString(),
+            table[i] = new String[] {"Klasse", schoolClass.getName().getValue(), schoolClass.getLevel().getValue(),
               schoolClass.getTeacher().getFirstName().getValue() + BLANKSPACE + schoolClass.getTeacher().getLastName().getValue()};
             i++;
         }
@@ -508,6 +508,7 @@ public class Print {
      */
 
     public static boolean yesNo() throws IOException {
+        System.out.println("Sollen die Daten vom letzten Mal genutzt werden? y/n");
         return reader.readLine().toLowerCase(Locale.ROOT).equals(Y);
     }
 

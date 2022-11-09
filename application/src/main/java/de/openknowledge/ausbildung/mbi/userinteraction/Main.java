@@ -27,6 +27,10 @@ public class Main {
     //Import/Export ZIP Files
     public static final String ZIP = ".zip";
 
+    public static final String DEFAULT_PATH = "C:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche Aufgabe Schuelerverwaltung";
+
+    public static final String DEFAULT_FORMAT = "UTF-8";
+
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     private static HashMap<String, List<String>> map = new HashMap<>();
@@ -88,8 +92,8 @@ public class Main {
             Print.printTable();
             input = reader.readLine();
         }
-        fileManagement.exportPersonData(teachers, students, schoolClassList,
-            "C:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche Aufgabe Schuelerverwaltung", "UTF-8", EXPORT);
+        fileManagement.exportPersonData(teachers, students, schoolClassList, DEFAULT_PATH, DEFAULT_FORMAT, EXPORT);
+        fileManagement.exportClasses(schoolClassList, DEFAULT_PATH, DEFAULT_FORMAT, teachers, students);
     }
 
     private static void importData(FileManagement fileManagement, String path) throws IOException {
@@ -111,7 +115,6 @@ public class Main {
     }
 
 
-
     static Name randomFirstName() {
         return new Name(FirstNames.values()[RANDOM.nextInt(FirstNames.values().length)].name());
     }
@@ -123,13 +126,11 @@ public class Main {
     private static void startUp() throws IOException {
         System.out.println("Starting Management");
         sort = ASC;
-        System.out.println("Sollen die Daten vom letzten Mal genutzt werden? y/n");
-        String defaultPath = "C:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche Aufgabe Schuelerverwaltung\\export.csv";
         if (Print.yesNo()) {
             FileManagement fileManagement = new FileManagement();
-            teachers = fileManagement.importTeachers(defaultPath);
-            students = fileManagement.importStudents(defaultPath);
-            schoolClassList = fileManagement.importClasses(defaultPath, teachers, students);
+            teachers = fileManagement.importTeachers(DEFAULT_PATH + "\\" + EXPORT + CSV);
+            students = fileManagement.importStudents(DEFAULT_PATH + "\\" + EXPORT + CSV);
+            schoolClassList = fileManagement.importClasses(DEFAULT_PATH + "\\Klassenliste.csv", teachers, students);
         } else {
             teachers = FileManagement.generateTeachers();
             students = FileManagement.generateStudents();
@@ -153,7 +154,7 @@ public class Main {
     }
 
     private static void chooseAction(String input) throws IOException {
-        for (Map.Entry<String, List<String>> entry: map.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
             String action = input.substring(entry.getKey().length());
             if (input.substring(0, entry.getKey().length()).compareTo(CLASS) == 0) {
                 Actions.classActions(action, schoolClassList, students, teachers);
