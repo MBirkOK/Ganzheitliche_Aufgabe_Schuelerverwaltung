@@ -32,7 +32,7 @@ public class Name implements Comparable<Name> {
      * @return a boolean to indicate the name
      */
     public boolean valid(String validValue) {
-        return ! (validValue.isEmpty()) && validValue.trim().length() > 2;
+        return !(validValue.isEmpty()) && validValue.trim().length() > 2;
     }
 
     @Override

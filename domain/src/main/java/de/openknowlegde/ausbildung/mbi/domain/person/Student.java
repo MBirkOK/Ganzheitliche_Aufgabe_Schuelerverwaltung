@@ -1,6 +1,5 @@
 package de.openknowlegde.ausbildung.mbi.domain.person;
 
-import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
