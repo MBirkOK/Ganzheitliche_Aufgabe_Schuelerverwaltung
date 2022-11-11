@@ -30,6 +30,7 @@ public class Main {
     public static final String DEFAULT_PATH = "C:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche Aufgabe Schuelerverwaltung";
 
     public static final String DEFAULT_FORMAT = "UTF-8";
+    private static final String SLASHES = "\\";
 
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -84,7 +85,7 @@ public class Main {
             } else if (input.equals(IMPORT)) {
                 String path = Actions.createPath(Print.inputPath());
                 String fileName = Print.whichFile();
-                String filePath = path + "\\" + fileName;
+                String filePath = path + SLASHES + fileName;
                 importData(fileManagement, filePath);
             } else {
                 chooseAction(input);
@@ -128,9 +129,9 @@ public class Main {
         sort = ASC;
         if (Print.yesNo()) {
             FileManagement fileManagement = new FileManagement();
-            teachers = fileManagement.importTeachers(DEFAULT_PATH + "\\" + EXPORT + CSV);
-            students = fileManagement.importStudents(DEFAULT_PATH + "\\" + EXPORT + CSV);
-            schoolClassList = fileManagement.importClasses(DEFAULT_PATH + "\\Klassenliste.csv", teachers, students);
+            teachers = fileManagement.importTeachers(DEFAULT_PATH + SLASHES + EXPORT + CSV);
+            students = fileManagement.importStudents(DEFAULT_PATH + SLASHES + EXPORT + CSV);
+            schoolClassList = fileManagement.importClasses(DEFAULT_PATH + SLASHES + "Klassenliste.csv", teachers, students);
         } else {
             teachers = FileManagement.generateTeachers();
             students = FileManagement.generateStudents();
@@ -152,6 +153,7 @@ public class Main {
 
         System.out.println("Start up complete.");
     }
+
     private static void chooseAction(String input) throws IOException {
         for (Map.Entry<String, List<String>> entry : map.entrySet()) {
             String action = input.substring(entry.getKey().length());
