@@ -152,7 +152,6 @@ public class Main {
 
         System.out.println("Start up complete.");
     }
-
     private static void chooseAction(String input) throws IOException {
         for (Map.Entry<String, List<String>> entry : map.entrySet()) {
             String action = input.substring(entry.getKey().length());
