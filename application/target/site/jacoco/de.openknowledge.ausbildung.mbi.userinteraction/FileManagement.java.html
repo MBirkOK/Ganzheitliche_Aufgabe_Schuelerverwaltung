@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileManagement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">application</a> &gt; <a href="index.source.html" class="el_package">de.openknowledge.ausbildung.mbi.userinteraction</a> &gt; <span class="el_source">FileManagement.java</span></div><h1>FileManagement.java</h1><pre class="source lang-java linenums">package de.openknowledge.ausbildung.mbi.userinteraction;
+
+import static de.openknowledge.ausbildung.mbi.userinteraction.Main.randomFirstName;
+import static de.openknowledge.ausbildung.mbi.userinteraction.Main.randomLastName;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
+
+import de.openknowlegde.ausbildung.mbi.domain.adressing.City;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.HouseNumber;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.Street;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.Zip;
+import de.openknowlegde.ausbildung.mbi.domain.person.Human;
+import de.openknowlegde.ausbildung.mbi.domain.person.Student;
+import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Adress;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Birthday;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
+import de.openknowlegde.ausbildung.mbi.domain.school.Description;
+import de.openknowlegde.ausbildung.mbi.domain.school.Level;
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
+
+/**
+ * The FileManagament is used to manage files that are intended for either export or import. Also, an automatic import of the files is
+ * regulated here with system start, as well as an automatic export, as soon as the system is terminated.
+ */
+@SuppressWarnings(&quot;checkstyle:RegexpSingleline&quot;)
+public class FileManagement {
+    private static final String CSV_FILE_END = &quot;.csv&quot;;
+
+    private static final String COMMA = &quot;,&quot;;
+    //Constant for the number 3. Used for the import or as index in arrays
+    private static final int THREE = 3;
+
+    //Constant for the number 4. Used as index in array
+    private static final int FOUR = 4;
+
+    //Constant for the number 5. Used as export index
+    private static final int FIVE = 5;
+
+    //Constant for the number 6. Used for the phone numbers
+    private static final int SIX = 6;
+    //Constant for the number 7. Used as index for school class export
+    private static final int SEVEN = 7;
+
+    //Constant for the number 100, Used as max Size of the two-dimensional Array
+    private static final int HUNDERT = 100;
+
+    //Birthdate start date
+    private static final int NINETEENSEVENTY = 1970;
+
+    //Birthdate end date
+    private static final int TWOTHOUSANDFIVETEEN = 2015;
+
+    //Birthdate last month
+    private static final int TWELVE = 12;
+
+    //Random letter of Alphabet
+    private static final int TWENTYSIX = 26;
+
+    //Max Days in month
+    private static final int THIRTYONE = 31;
+
+    //Number of Students to generate
+    private static final int FOURTY = 40;
+    //Usage for buffer array
+    private static final int THOUSANDTWENTYTWO = 1024;
+
+    private static final String TEACHER = &quot;lehrer&quot;;
+
+    private static final String STUDENT = &quot;schueler&quot;;
+
+    private static final String CLASS = &quot;klasse&quot;;
+
+    private static final String MINUS = &quot;-&quot;;
+
+    private static final String BLANKSPACE = &quot; &quot;;
+
+    private static final String SLASHES = &quot;\\&quot;;
+
+    private static final String KLASSENLISTE_CSV = &quot;Klassenliste.csv&quot;;
+
+<span class="nc" id="L104">    public FileManagement() {</span>
+<span class="nc" id="L105">    }</span>
+
+    /**
+     * With the help of the method, teachers should be able to be imported as easily as possible. The passed path serves as location where
+     * the file is located. The path must also contain the file name and extension. A valid path can have the following format
+     * &quot;C://xxx/xxx/xxx/xx.csv&quot;. The method is overloaded by another variant, which is, however, set private and is only used within
+     * start.
+     *
+     * @param path path with file name and filetype
+     * @return a list of teachers
+     * @throws IOException
+     */
+    public List&lt;Teacher&gt; importTeachers(String path) throws IOException {
+        try {
+            String line;
+<span class="nc" id="L120">            List&lt;Teacher&gt; teacherList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L121">            BufferedReader bufferedReader = new BufferedReader(new FileReader(path));</span>
+<span class="nc bnc" id="L122" title="All 4 branches missed.">            while ((line = bufferedReader.readLine()) != null &amp;&amp; !line.isEmpty()) {</span>
+<span class="nc" id="L123">                String[] lineArray = line.split(COMMA);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                if (!lineArray[FOUR].equals(TEACHER)) {</span>
+<span class="nc" id="L125">                    continue;</span>
+                }
+<span class="nc" id="L127">                String[] birthday = lineArray[THREE].split(MINUS);</span>
+<span class="nc" id="L128">                Set&lt;Adress&gt; adresses = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L129">                Set&lt;Phone&gt; phones = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                for (int i = FIVE; i &lt; lineArray.length; i++) {</span>
+<span class="nc" id="L131">                    int alphabeticInLinePosition = getAlphabeticInLinePosition(lineArray[i]);</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">                    if (alphabeticInLinePosition != 0) {</span>
+<span class="nc" id="L133">                        String[] adress = lineArray[i].split(BLANKSPACE);</span>
+<span class="nc" id="L134">                        adresses.add(createAdress(adress));</span>
+<span class="nc" id="L135">                    } else {</span>
+<span class="nc" id="L136">                        String[] phone = lineArray[i].split(BLANKSPACE);</span>
+<span class="nc" id="L137">                        phones.add(new Phone(phone[0]));</span>
+                    }
+                }
+<span class="nc" id="L140">                LocalDate birthdate = LocalDate.of(Integer.parseInt(birthday[0]), Integer.parseInt(birthday[1]),</span>
+<span class="nc" id="L141">                    Integer.parseInt(birthday[2]));</span>
+<span class="nc" id="L142">                Teacher teacherToAdd = new Teacher(UUID.fromString(lineArray[0]), new Name(lineArray[1]),</span>
+                    new Name(lineArray[2]), null, adresses, new Birthday(birthdate));
+
+<span class="nc" id="L145">                teacherList.add(teacherToAdd);</span>
+<span class="nc" id="L146">            }</span>
+<span class="nc" id="L147">            return teacherList;</span>
+<span class="nc" id="L148">        } catch (Exception e) {</span>
+<span class="nc" id="L149">            System.out.println(e);</span>
+<span class="nc" id="L150">            return importTeachers(Actions.createPath(Print.inputPath()));</span>
+        }
+    }
+
+    private Adress createAdress(String[] adress) {
+<span class="nc" id="L155">        return new Adress(new Street(new Name(adress[0])),</span>
+<span class="nc" id="L156">            new HouseNumber(Integer.parseInt(adress[1])), new Zip(Integer.parseInt(adress[2])),</span>
+            new City(new Name(adress[THREE])));
+    }
+
+
+    private List&lt;Teacher&gt; importTeachers(BufferedReader bufferedReader) throws IOException {
+        String line;
+<span class="nc" id="L163">        List&lt;Teacher&gt; teacherList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        while ((line = bufferedReader.readLine()) != null) {</span>
+<span class="nc" id="L165">            String[] lineArray = line.split(COMMA);</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">            if (lineArray.length &gt; FOUR) {</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">                if (lineArray[FOUR].equals(TEACHER)) {</span>
+<span class="nc" id="L168">                    String[] birthday = lineArray[THREE].split(MINUS);</span>
+<span class="nc" id="L169">                    Set&lt;Adress&gt; adresses = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L170">                    Set&lt;Phone&gt; phones = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L171">                    int lineArraySize = lineArray.length;</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                    for (int i = FIVE; i &lt; lineArraySize; i++) {</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">                        if (lineArray.length &gt; SEVEN) {</span>
+<span class="nc" id="L174">                            lineArraySize = lineArraySize - 1;</span>
+                        }
+<span class="nc" id="L176">                        int alphabeticInLinePosition = getAlphabeticInLinePosition(lineArray[i]);</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">                        if (alphabeticInLinePosition != 0) {</span>
+<span class="nc" id="L178">                            String[] adress = lineArray[i].split(BLANKSPACE);</span>
+<span class="nc" id="L179">                            adresses.add(createAdress(adress));</span>
+<span class="nc" id="L180">                        } else {</span>
+<span class="nc" id="L181">                            String[] phone = lineArray[i].split(BLANKSPACE);</span>
+<span class="nc" id="L182">                            phones.add(new Phone(phone[0]));</span>
+                        }
+                    }
+<span class="nc" id="L185">                    int day = Integer.parseInt(birthday[0]);</span>
+<span class="nc" id="L186">                    int month = Integer.parseInt(birthday[1]);</span>
+<span class="nc" id="L187">                    int year = Integer.parseInt(birthday[2]);</span>
+<span class="nc" id="L188">                    LocalDate birthdate = LocalDate.of(day, month, year);</span>
+<span class="nc" id="L189">                    UUID uuidFromString = UUID.fromString(lineArray[0]);</span>
+<span class="nc" id="L190">                    Teacher teacherToAdd = new Teacher(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]),</span>
+                        phones, adresses, new Birthday(birthdate));
+
+<span class="nc" id="L193">                    teacherList.add(teacherToAdd);</span>
+                }
+            }
+<span class="nc" id="L196">        }</span>
+<span class="nc" id="L197">        return teacherList;</span>
+    }
+
+    private static int getAlphabeticInLinePosition(String lineArray) {
+<span class="nc" id="L201">        int alphabeticInLinePosition = 0;</span>
+<span class="nc" id="L202">        char[] chars = lineArray.toCharArray();</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">        for (char c : chars) {</span>
+<span class="nc bnc" id="L204" title="All 4 branches missed.">            if (Character.isAlphabetic(c) &amp;&amp; Character.isUpperCase(c)) {</span>
+<span class="nc" id="L205">                alphabeticInLinePosition = alphabeticInLinePosition + 1;</span>
+            }
+        }
+<span class="nc" id="L208">        return alphabeticInLinePosition;</span>
+    }
+
+    /**
+     * With the help of the method, student should be able to be imported as easily as possible. The passed path serves as location where
+     * the file is located. The path must also contain the file name and extension. A valid path can have the following format
+     * &quot;C://xxx/xxx/xxx/xx.csv&quot;. The method is overloaded by another variant, which is, however, set private and is only used within
+     * start.FileManagement.
+     *
+     * @param path path with file name and filetype
+     * @return a list of students
+     * @throws IOException
+     */
+    public List&lt;Student&gt; importStudents(String path) throws IOException {
+        String line;
+<span class="nc" id="L223">        List&lt;Student&gt; studentList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L224">        BufferedReader bufferedReader = new BufferedReader(new FileReader(path));</span>
+<span class="nc bnc" id="L225" title="All 4 branches missed.">        while ((line = bufferedReader.readLine()) != null &amp;&amp; !line.isEmpty()) {</span>
+<span class="nc" id="L226">            String[] lineArray = line.split(COMMA);</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">            if (lineArray[FOUR].equals(STUDENT)) {</span>
+<span class="nc" id="L228">                String[] birthday = lineArray[THREE].split(MINUS);</span>
+<span class="nc" id="L229">                int day = Integer.parseInt(birthday[0]);</span>
+<span class="nc" id="L230">                int month = Integer.parseInt(birthday[1]);</span>
+<span class="nc" id="L231">                int year = Integer.parseInt(birthday[2]);</span>
+<span class="nc" id="L232">                LocalDate birthDate = LocalDate.of(day, month, year);</span>
+<span class="nc" id="L233">                UUID uuidFromString = UUID.fromString(lineArray[0]);</span>
+<span class="nc" id="L234">                studentList.add(new Student(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]), null, null,</span>
+                    new Birthday(birthDate)));
+            }
+<span class="nc" id="L237">        }</span>
+<span class="nc" id="L238">        return studentList;</span>
+    }
+
+    private List&lt;Student&gt; importStudents(BufferedReader bufferedReader) throws IOException {
+        String line;
+<span class="nc" id="L243">        List&lt;Student&gt; studentList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">        while ((line = bufferedReader.readLine()) != null) {</span>
+<span class="nc" id="L245">            String[] lineArray = line.split(COMMA);</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">            if (lineArray.length &gt; FOUR) {</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">                if (lineArray[FOUR].equals(STUDENT)) {</span>
+<span class="nc" id="L248">                    String[] birthday = lineArray[THREE].split(MINUS);</span>
+<span class="nc" id="L249">                    int day = Integer.parseInt(birthday[0]);</span>
+<span class="nc" id="L250">                    int month = Integer.parseInt(birthday[1]);</span>
+<span class="nc" id="L251">                    int year = Integer.parseInt(birthday[2]);</span>
+<span class="nc" id="L252">                    LocalDate birthDate = LocalDate.of(day, month, year);</span>
+<span class="nc" id="L253">                    UUID uuidFromString = UUID.fromString(lineArray[0]);</span>
+<span class="nc" id="L254">                    studentList.add(new Student(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]), null, null,</span>
+                        new Birthday(birthDate)));
+                }
+            }
+<span class="nc" id="L258">        }</span>
+<span class="nc" id="L259">        return studentList;</span>
+    }
+
+    /**
+     * With the help of the method, school classes should be able to be imported as easily as possible. The passed path serves as location
+     * where the file is located. The path must also contain the file name and extension. A valid path can have the following format
+     * &quot;C://xxx/xxx/xxx/xx.csv&quot;. The method is overloaded by another variant, which is, however, set private and is only used within
+     * start.FileManagement.
+     *
+     * @param path        path with file name and filetype
+     * @param teacherList a list of teachers who can be assigned to classes
+     * @param students    a list of students who can be assigned to classes
+     * @return a list of school classes
+     * @throws IOException
+     */
+    public List&lt;SchoolClass&gt; importClasses(String path, List&lt;Teacher&gt; teacherList, List&lt;Student&gt; students) throws IOException {
+        String line;
+<span class="nc" id="L276">        List&lt;SchoolClass&gt; schoolClasses = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L277">        Teacher teacherInArray = null;</span>
+<span class="nc" id="L278">        BufferedReader bufferedReader = new BufferedReader(new FileReader(path));</span>
+<span class="nc bnc" id="L279" title="All 4 branches missed.">        while ((line = bufferedReader.readLine()) != null &amp;&amp; !line.isEmpty()) {</span>
+<span class="nc" id="L280">            String[] lineArray = line.split(COMMA);</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">            if (lineArray.length &lt;= FOUR) {</span>
+<span class="nc" id="L282">                continue;</span>
+            }
+<span class="nc bnc" id="L284" title="All 2 branches missed.">            for (Teacher teacher : teacherList) {</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">                if (teacher.getNumber().toString().equals(lineArray[THREE])) {</span>
+<span class="nc" id="L286">                    teacherInArray = new Teacher(teacher.getNumber(), teacher.getFirstName(), teacher.getLastName(),</span>
+<span class="nc" id="L287">                        teacher.getPhone(), teacher.getAdress(), teacher.getBirthday());</span>
+                }
+<span class="nc" id="L289">            }</span>
+<span class="nc" id="L290">            List&lt;Student&gt; studentFromFile = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">            for (int i = FIVE; i &lt; lineArray.length; i++) {</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">                for (Student student : students) {</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">                    if (student.getNumber().toString().equals(lineArray[i])) {</span>
+<span class="nc" id="L294">                        studentFromFile.add(student);</span>
+                    }
+<span class="nc" id="L296">                }</span>
+            }
+<span class="nc bnc" id="L298" title="All 2 branches missed.">            if (lineArray[FOUR].equals(CLASS)) {</span>
+<span class="nc" id="L299">                schoolClasses.add(new SchoolClass(new Name(lineArray[0]), new Description(lineArray[2]), new Level(lineArray[1]),</span>
+                    teacherInArray, studentFromFile));
+            }
+<span class="nc" id="L302">        }</span>
+<span class="nc" id="L303">        return schoolClasses;</span>
+    }
+
+    private List&lt;SchoolClass&gt; importClasses(BufferedReader bufferedReader, List&lt;Teacher&gt; teacherList,
+        List&lt;Student&gt; students) throws IOException {
+        String line;
+<span class="nc" id="L309">        List&lt;SchoolClass&gt; schoolClasses = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L310">        Teacher teacherInArray = null;</span>
+<span class="nc bnc" id="L311" title="All 2 branches missed.">        while ((line = bufferedReader.readLine()) != null) {</span>
+<span class="nc" id="L312">            String[] lineArray = line.split(COMMA);</span>
+<span class="nc bnc" id="L313" title="All 2 branches missed.">            if (lineArray.length &gt; FOUR) {</span>
+<span class="nc bnc" id="L314" title="All 2 branches missed.">                for (Teacher teacher : teacherList) {</span>
+<span class="nc bnc" id="L315" title="All 2 branches missed.">                    if (teacher.getNumber().toString().equals(lineArray[THREE])) {</span>
+<span class="nc" id="L316">                        teacherInArray = new Teacher(teacher.getNumber(), teacher.getFirstName(),</span>
+<span class="nc" id="L317">                            teacher.getLastName(), teacher.getPhone(), teacher.getAdress(), teacher.getBirthday());</span>
+                    }
+<span class="nc" id="L319">                }</span>
+<span class="nc" id="L320">                List&lt;Student&gt; studentFromFile = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L321" title="All 2 branches missed.">                for (int i = FIVE; i &lt; lineArray.length; i++) {</span>
+<span class="nc bnc" id="L322" title="All 2 branches missed.">                    for (Student student : students) {</span>
+<span class="nc bnc" id="L323" title="All 2 branches missed.">                        if (student.getNumber().toString().equals(lineArray[i])) {</span>
+<span class="nc" id="L324">                            studentFromFile.add(student);</span>
+                        }
+<span class="nc" id="L326">                    }</span>
+                }
+
+<span class="nc bnc" id="L329" title="All 2 branches missed.">                if (lineArray[FOUR].equals(CLASS)) {</span>
+<span class="nc" id="L330">                    schoolClasses.add(new SchoolClass(new Name(lineArray[0]), new Description(lineArray[2]), new Level(lineArray[1]),</span>
+                        teacherInArray, studentFromFile));
+                }
+            }
+<span class="nc" id="L334">        }</span>
+<span class="nc" id="L335">        return schoolClasses;</span>
+    }
+
+    private void writeFile(String[][] csvMatrix, File file, String format) throws IOException {
+<span class="nc bnc" id="L339" title="All 2 branches missed.">        if (file.createNewFile()) {</span>
+<span class="nc" id="L340">            PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), Charset.forName(format)));</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">            for (int i = 0; i &lt; csvMatrix.length; i++) {</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">                for (int j = 0; j &lt; csvMatrix[i].length; j++) {</span>
+<span class="nc bnc" id="L343" title="All 2 branches missed.">                    if (csvMatrix[i][j] != null) {</span>
+<span class="nc" id="L344">                        pw.write(csvMatrix[i][j]);</span>
+<span class="nc" id="L345">                        pw.write(COMMA);</span>
+                    }
+                }
+<span class="nc" id="L348">                pw.append(&quot;\n&quot;);</span>
+            }
+<span class="nc" id="L350">            pw.flush();</span>
+<span class="nc" id="L351">            pw.close();</span>
+        }
+<span class="nc" id="L353">    }</span>
+
+    /**
+     * Exports the data associated with a person. Regardless of the type, i.e. whether student or teacher. At the beginning it is checked if
+     * the file already exists and then deleted accordingly. Based on a 2 dimensional matrix, the data is then loaded and saved in a valid
+     * format for CSV files. For each teacher, a prefix &quot;teacher&quot; is inserted in the data set, correspondingly &quot;student&quot; is inserted for the
+     * student. For both entities, the corresponding class will be saved as well. Since a student can only be in one class and each class
+     * has a class teacher, this can be a valid representation.
+     *
+     * @param teachers        a list of teachers at the school
+     * @param students        a list of students at the school
+     * @param schoolClassList a list of school classes
+     * @param path            the path, where the file should be stored
+     * @param format          the format, i.e. UTF-8
+     * @param fileName        the name of the file
+     * @throws Exception
+     */
+
+    public File exportPersonData(List&lt;Teacher&gt; teachers, List&lt;Student&gt; students, List&lt;SchoolClass&gt; schoolClassList,
+        String path, String format, String fileName) throws IOException {
+<span class="nc" id="L373">        File file = new File(path + SLASHES + fileName + CSV_FILE_END);</span>
+        try {
+<span class="nc bnc" id="L375" title="All 2 branches missed.">            if (file.exists()) {</span>
+<span class="nc" id="L376">                file.delete();</span>
+            }
+
+<span class="nc" id="L379">            final String[][] csvMatrix = new String[teachers.size() + students.size() + schoolClassList.size() + 1][HUNDERT];</span>
+<span class="nc" id="L380">            int teachercount = 0;</span>
+<span class="nc" id="L381">            csvMatrix[0][0] = &quot;ID&quot;;</span>
+<span class="nc" id="L382">            csvMatrix[0][1] = &quot;Vorname&quot;;</span>
+<span class="nc" id="L383">            csvMatrix[0][2] = &quot;Nachname&quot;;</span>
+<span class="nc" id="L384">            csvMatrix[0][THREE] = &quot;Geburtstag&quot;;</span>
+<span class="nc" id="L385">            csvMatrix[0][FOUR] = &quot;Typ&quot;;</span>
+<span class="nc" id="L386">            csvMatrix[0][FIVE] = &quot;Adresse&quot;;</span>
+<span class="nc" id="L387">            csvMatrix[0][SIX] = &quot;Telefon&quot;;</span>
+<span class="nc" id="L388">            csvMatrix[0][SEVEN] = &quot;Klasse&quot;;</span>
+
+<span class="nc bnc" id="L390" title="All 2 branches missed.">            for (int i = 1; i &lt; teachers.size() + 1; i++) {</span>
+<span class="nc" id="L391">                csvMatrix[i] = addHumanToArray(csvMatrix[i], teachers.get(teachercount), schoolClassList);</span>
+<span class="nc" id="L392">                teachercount = teachercount + 1;</span>
+            }
+<span class="nc" id="L394">            int studentcount = 0;</span>
+
+<span class="nc bnc" id="L396" title="All 2 branches missed.">            for (int i = teachers.size() + 1; i &lt; students.size() + teachers.size() + 1; i++) {</span>
+<span class="nc" id="L397">                csvMatrix[i] = addHumanToArray(csvMatrix[i], students.get(studentcount), schoolClassList);</span>
+<span class="nc" id="L398">                studentcount = studentcount + 1;</span>
+            }
+<span class="nc" id="L400">            this.writeFile(csvMatrix, file, format);</span>
+<span class="nc" id="L401">            return file;</span>
+<span class="nc" id="L402">        } catch (Exception e) {</span>
+<span class="nc" id="L403">            path = Actions.createPath(Print.inputPath());</span>
+<span class="nc" id="L404">            return exportPersonData(teachers, students, schoolClassList, path, format, fileName);</span>
+        }
+    }
+
+    /**
+     * The method is the equivalent of the &quot;exportPersonData&quot; method. It exports the school classes in a valid format. Via the header the
+     * records can be sorted accordingly. Besides the name of the class, the data for the level, the description and the ID of the teacher
+     * are saved.
+     *
+     * @param schoolClassList a list of school classes
+     * @param path            the path, where the file should be stored
+     * @param format          the format, i.e. UTF-8
+     * @param teachers        a list of teachers at the school
+     * @param students        a list of students at the school
+     * @return
+     * @throws IOException
+     */
+    public File exportClasses(List&lt;SchoolClass&gt; schoolClassList, String path, String format, List&lt;Teacher&gt; teachers,
+        List&lt;Student&gt; students) {
+<span class="nc" id="L423">        File file = new File(path + SLASHES + &quot;Klassenliste&quot; + CSV_FILE_END);</span>
+
+        try {
+<span class="nc bnc" id="L426" title="All 2 branches missed.">            if (file.exists()) {</span>
+<span class="nc" id="L427">                file.delete();</span>
+            }
+<span class="nc" id="L429">            final String[][] csvMatrix = new String[teachers.size() + students.size() + schoolClassList.size() + 1][HUNDERT];</span>
+<span class="nc" id="L430">            csvMatrix[0][0] = &quot;Name&quot;;</span>
+<span class="nc" id="L431">            csvMatrix[0][1] = &quot;Stufe&quot;;</span>
+<span class="nc" id="L432">            csvMatrix[0][2] = &quot;Beschreibung&quot;;</span>
+<span class="nc" id="L433">            csvMatrix[0][THREE] = &quot;Lehrer&quot;;</span>
+<span class="nc" id="L434">            int classcount = 0;</span>
+<span class="nc bnc" id="L435" title="All 2 branches missed.">            for (int i = 1; i &lt; schoolClassList.size() + 1; i++) {</span>
+<span class="nc" id="L436">                csvMatrix[i] = addClassToArray(csvMatrix[i], schoolClassList.get(classcount));</span>
+<span class="nc" id="L437">                classcount = classcount + 1;</span>
+            }
+<span class="nc" id="L439">            this.writeFile(csvMatrix, file, format);</span>
+<span class="nc" id="L440">            return file;</span>
+<span class="nc" id="L441">        } catch (Exception e) {</span>
+<span class="nc" id="L442">            return null;</span>
+        }
+    }
+
+    /**
+     * Adds the two files in which the data for the persons, i.e. teachers and students, are stored and the school classes are stored to a
+     * .zip directory and saves it under the given path.
+     *
+     * @param firstFile  First file to store in .zip
+     * @param secondFile Second file to store in .zip
+     * @param path       the path, where the file should be stored
+     */
+    public void mergeToZipFile(File firstFile, File secondFile, String path) {
+        try {
+<span class="nc" id="L456">            byte[] buffer = new byte[THOUSANDTWENTYTWO];</span>
+<span class="nc" id="L457">            File file = new File(path + SLASHES + &quot;compressed.zip&quot;);</span>
+<span class="nc bnc" id="L458" title="All 2 branches missed.">            if (file.exists()) {</span>
+<span class="nc" id="L459">                file.delete();</span>
+            }
+<span class="nc" id="L461">            file.createNewFile();</span>
+<span class="nc" id="L462">            FileOutputStream fos = new FileOutputStream(file.getAbsolutePath());</span>
+
+<span class="nc" id="L464">            ZipOutputStream zos = new ZipOutputStream(fos);</span>
+<span class="nc" id="L465">            List&lt;File&gt; srcFiles = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L466">            srcFiles.add(firstFile);</span>
+<span class="nc" id="L467">            srcFiles.add(secondFile);</span>
+<span class="nc bnc" id="L468" title="All 2 branches missed.">            for (int i = 0; i &lt; srcFiles.size(); i++) {</span>
+<span class="nc" id="L469">                File srcFile = srcFiles.get(i);</span>
+<span class="nc" id="L470">                FileInputStream fis = new FileInputStream(srcFile);</span>
+<span class="nc" id="L471">                zos.putNextEntry(new ZipEntry(srcFile.getName()));</span>
+                int length;
+<span class="nc bnc" id="L473" title="All 2 branches missed.">                while ((length = fis.read(buffer)) &gt; 0) {</span>
+<span class="nc" id="L474">                    zos.write(buffer, 0, length);</span>
+                }
+<span class="nc" id="L476">                zos.closeEntry();</span>
+<span class="nc" id="L477">                fis.close();</span>
+            }
+<span class="nc" id="L479">            zos.close();</span>
+<span class="nc" id="L480">            firstFile.delete();</span>
+<span class="nc" id="L481">            secondFile.delete();</span>
+<span class="nc" id="L482">        } catch (Exception e) {</span>
+<span class="nc" id="L483">            System.out.println(e);</span>
+<span class="nc" id="L484">        }</span>
+<span class="nc" id="L485">    }</span>
+
+    private String[] addHumanToArray(String[] data, Human human, List&lt;SchoolClass&gt; schoolClassList) {
+<span class="nc" id="L488">        data[0] = human.getNumber().toString();</span>
+<span class="nc" id="L489">        data[1] = human.getFirstName().getValue();</span>
+<span class="nc" id="L490">        data[2] = human.getLastName().getValue();</span>
+<span class="nc" id="L491">        data[THREE] = human.getBirthday().getBirthday().toString();</span>
+<span class="nc bnc" id="L492" title="All 2 branches missed.">        if (human instanceof Teacher) {</span>
+<span class="nc" id="L493">            data[FOUR] = TEACHER;</span>
+<span class="nc bnc" id="L494" title="All 2 branches missed.">            for (SchoolClass schoolClass : schoolClassList) {</span>
+<span class="nc bnc" id="L495" title="All 2 branches missed.">                if (human.getNumber().equals(schoolClass.getTeacher().getNumber())) {</span>
+<span class="nc" id="L496">                    data[SEVEN] = schoolClass.getName().getValue();</span>
+                }
+<span class="nc" id="L498">            }</span>
+<span class="nc bnc" id="L499" title="All 2 branches missed.">        } else if (human instanceof Student) {</span>
+<span class="nc" id="L500">            data[FOUR] = STUDENT;</span>
+<span class="nc bnc" id="L501" title="All 2 branches missed.">            for (SchoolClass schoolClass : schoolClassList) {</span>
+<span class="nc bnc" id="L502" title="All 2 branches missed.">                for (Student student : schoolClass.getStudents()) {</span>
+<span class="nc bnc" id="L503" title="All 2 branches missed.">                    if (human.getNumber().toString().equals(student.getNumber().toString())) {</span>
+<span class="nc" id="L504">                        data[SEVEN] = schoolClass.getName().getValue();</span>
+                    }
+<span class="nc" id="L506">                }</span>
+<span class="nc" id="L507">            }</span>
+        }
+
+<span class="nc" id="L510">        addAdressAndPhoneToArray(data, human);</span>
+<span class="nc" id="L511">        return data;</span>
+    }
+
+    private String[] addAdressAndPhoneToArray(String[] data, Human human) {
+<span class="nc" id="L515">        int arrayLength = FIVE;</span>
+<span class="nc" id="L516">        int iterator = 0;</span>
+
+<span class="nc bnc" id="L518" title="All 2 branches missed.">        if (human.getAdress() == null) {</span>
+<span class="nc" id="L519">            human.addAdress(new Adress().randomAdress());</span>
+        }
+<span class="nc bnc" id="L521" title="All 2 branches missed.">        for (int j = FIVE; j &lt; human.getAdress().size() + FIVE; j++) {</span>
+<span class="nc" id="L522">            data[j] = addAdressFromHuman(iterator, human);</span>
+<span class="nc" id="L523">            arrayLength = arrayLength + 1;</span>
+<span class="nc" id="L524">            iterator = iterator + 1;</span>
+        }
+<span class="nc" id="L526">        iterator = 0;</span>
+<span class="nc bnc" id="L527" title="All 4 branches missed.">        if (human.getPhone() == null || human.getPhone().isEmpty()) {</span>
+<span class="nc" id="L528">            human.addPhone(new Phone(String.valueOf((int)(Math.random() * HUNDERT))));</span>
+        }
+<span class="nc bnc" id="L530" title="All 2 branches missed.">        for (int j = arrayLength; j &lt; human.getPhone().size() + arrayLength; j++) {</span>
+<span class="nc" id="L531">            data[j] = human.getPhone().iterator().next().getNumber();</span>
+<span class="nc" id="L532">            iterator = iterator + 1;</span>
+        }
+<span class="nc" id="L534">        return data;</span>
+    }
+
+    @SuppressWarnings(&quot;checkstyle:Indentation&quot;)
+    private String addAdressFromHuman(int iterator, Human human) {
+<span class="nc bnc" id="L539" title="All 2 branches missed.">        if (human.getAdress() == null) {</span>
+<span class="nc" id="L540">            human.addAdress(new Adress().randomAdress());</span>
+        }
+<span class="nc" id="L542">        String data =</span>
+<span class="nc" id="L543">            human.getAdress().iterator().next().getStreet().getStreet().getValue() + BLANKSPACE</span>
+<span class="nc" id="L544">                + human.getAdress().iterator().next().getHouseNumber().getNumber() + BLANKSPACE</span>
+<span class="nc" id="L545">                + human.getAdress().iterator().next().getZipcode().getNumber() + BLANKSPACE</span>
+<span class="nc" id="L546">                + human.getAdress().iterator().next().getCity().getName().getValue();</span>
+
+<span class="nc" id="L548">        return data;</span>
+    }
+
+    private String[] addClassToArray(String[] data, SchoolClass schoolClass) {
+<span class="nc" id="L552">        data[0] = schoolClass.getName().getValue();</span>
+<span class="nc" id="L553">        data[1] = schoolClass.getLevel().getValue();</span>
+<span class="nc" id="L554">        data[2] = schoolClass.getDescription().getValue();</span>
+<span class="nc" id="L555">        data[THREE] = schoolClass.getTeacher().getNumber().toString();</span>
+<span class="nc" id="L556">        data[FOUR] = CLASS;</span>
+
+<span class="nc" id="L558">        return data;</span>
+    }
+
+    /**
+     * Import teachers from a given .zip file. This uses the file that contains the personal data. The prefix &quot;lehrer&quot; can be used to check
+     * whether the teacher is valid. Then the data is transferred to the entity and written to a list. The list is returned.
+     *
+     * @param path the path, where the file should be imported from
+     * @return a list of teachers
+     * @throws IOException
+     */
+    public List&lt;Teacher&gt; importTeachersFromZip(String path) throws IOException {
+<span class="nc" id="L570">        ZipFile zipFile = new ZipFile(path);</span>
+<span class="nc" id="L571">        Enumeration&lt;? extends ZipEntry&gt; entries = zipFile.entries();</span>
+<span class="nc bnc" id="L572" title="All 2 branches missed.">        while (entries.hasMoreElements()) {</span>
+<span class="nc" id="L573">            ZipEntry entry = entries.nextElement();</span>
+<span class="nc bnc" id="L574" title="All 2 branches missed.">            if (!entry.getName().equals(KLASSENLISTE_CSV)) {</span>
+<span class="nc" id="L575">                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(zipFile.getInputStream(entry)));</span>
+<span class="nc" id="L576">                return importTeachers(bufferedReader);</span>
+            }
+<span class="nc" id="L578">        }</span>
+<span class="nc" id="L579">        return null;</span>
+    }
+
+    /**
+     * Import students from a given .zip file. This uses the file that contains the personal data. The prefix &quot;schueler&quot; can be used to
+     * check whether the teacher is valid. Then the data is transferred to the entity and written to a list. The list is returned.
+     *
+     * @param path the path, where the file should be imported from
+     * @return a list of students
+     * @throws IOException
+     */
+    public List&lt;Student&gt; importStudentsFromZip(String path) throws IOException {
+<span class="nc" id="L591">        ZipFile zipFile = new ZipFile(path);</span>
+<span class="nc" id="L592">        Enumeration&lt;? extends ZipEntry&gt; entries = zipFile.entries();</span>
+<span class="nc bnc" id="L593" title="All 2 branches missed.">        while (entries.hasMoreElements()) {</span>
+<span class="nc" id="L594">            ZipEntry entry = entries.nextElement();</span>
+<span class="nc bnc" id="L595" title="All 2 branches missed.">            if (!entry.getName().equals(KLASSENLISTE_CSV)) {</span>
+<span class="nc" id="L596">                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(zipFile.getInputStream(entry)));</span>
+<span class="nc" id="L597">                return importStudents(bufferedReader);</span>
+            }
+<span class="nc" id="L599">        }</span>
+<span class="nc" id="L600">        return null;</span>
+    }
+
+    /**
+     * Import all classes from the given .zip file. The method also transfers the memberships from the various teacher-classes and
+     * student-classes relations.
+     *
+     * @param path     the path, where the file should be imported from
+     * @param teachers a list of teachers
+     * @param students a list of students
+     * @return a list of school classes
+     * @throws IOException
+     */
+    public List&lt;SchoolClass&gt; importClassesFromZip(String path, List&lt;Teacher&gt; teachers, List&lt;Student&gt; students) throws IOException {
+<span class="nc" id="L614">        ZipFile zipFile = new ZipFile(path);</span>
+<span class="nc" id="L615">        Enumeration&lt;? extends ZipEntry&gt; entries = zipFile.entries();</span>
+<span class="nc bnc" id="L616" title="All 2 branches missed.">        while (entries.hasMoreElements()) {</span>
+<span class="nc" id="L617">            ZipEntry entry = entries.nextElement();</span>
+<span class="nc bnc" id="L618" title="All 2 branches missed.">            if (entry.getName().equals(KLASSENLISTE_CSV)) {</span>
+<span class="nc" id="L619">                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(zipFile.getInputStream(entry)));</span>
+<span class="nc" id="L620">                return importClasses(bufferedReader, teachers, students);</span>
+            }
+<span class="nc" id="L622">        }</span>
+<span class="nc" id="L623">        return null;</span>
+    }
+
+    public static List&lt;Teacher&gt; generateTeachers() {
+
+<span class="nc" id="L628">        List&lt;Teacher&gt; teacherList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L629" title="All 2 branches missed.">        for (int i = 0; i &lt; FIVE; i++) {</span>
+<span class="nc" id="L630">            Set&lt;Phone&gt; phones = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L631">            phones.add(new Phone(String.valueOf(i)));</span>
+
+<span class="nc" id="L633">            long minDay = LocalDate.of(NINETEENSEVENTY, 1, 1).toEpochDay();</span>
+<span class="nc" id="L634">            long maxDay = LocalDate.of(TWOTHOUSANDFIVETEEN, TWELVE, THIRTYONE).toEpochDay();</span>
+<span class="nc" id="L635">            long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);</span>
+<span class="nc" id="L636">            LocalDate randomDate = LocalDate.ofEpochDay(randomDay);</span>
+
+<span class="nc" id="L638">            Adress adress = new Adress();</span>
+<span class="nc" id="L639">            Set&lt;Adress&gt; set = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L640">            set.add(adress.randomAdress());</span>
+
+<span class="nc" id="L642">            Teacher teacher = new Teacher(generateId(), randomFirstName(), randomLastName(), phones, set, new Birthday(randomDate));</span>
+<span class="nc" id="L643">            teacherList.add(teacher);</span>
+        }
+<span class="nc" id="L645">        return teacherList;</span>
+    }
+
+    public static List&lt;Student&gt; generateStudents() {
+<span class="nc" id="L649">        List&lt;Student&gt; studentList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L650" title="All 2 branches missed.">        for (int i = 0; i &lt; FOURTY; i++) {</span>
+<span class="nc" id="L651">            Set&lt;Phone&gt; phones = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L652">            phones.add(new Phone(String.valueOf(i)));</span>
+
+<span class="nc" id="L654">            long minDay = LocalDate.of(NINETEENSEVENTY, 1, 1).toEpochDay();</span>
+<span class="nc" id="L655">            long maxDay = LocalDate.of(TWOTHOUSANDFIVETEEN, TWELVE, THIRTYONE).toEpochDay();</span>
+<span class="nc" id="L656">            long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);</span>
+<span class="nc" id="L657">            LocalDate randomDate = LocalDate.ofEpochDay(randomDay);</span>
+
+<span class="nc" id="L659">            Adress adress = new Adress();</span>
+<span class="nc" id="L660">            Set&lt;Adress&gt; set = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L661">            set.add(adress.randomAdress());</span>
+
+<span class="nc" id="L663">            studentList.add(new Student(generateId(), randomFirstName(), randomLastName(), phones, set, new Birthday(randomDate)));</span>
+        }
+<span class="nc" id="L665">        return studentList;</span>
+    }
+
+    public static List&lt;SchoolClass&gt; generateClasses(List&lt;Teacher&gt; teacherList, List&lt;Student&gt; studentList) {
+<span class="nc" id="L669">        List&lt;SchoolClass&gt; schoolClasses = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L670" title="All 2 branches missed.">        for (int i = 0; i &lt; THREE; i++) {</span>
+<span class="nc" id="L671">            int randomInt = (int)(Math.random() * teacherList.size());</span>
+<span class="nc" id="L672">            Random r = new Random();</span>
+<span class="nc" id="L673">            char c = (char)(r.nextInt(TWENTYSIX) + 'a');</span>
+<span class="nc" id="L674">            List&lt;Student&gt; studentArrayList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L675" title="All 2 branches missed.">            for (int j = 0; j &lt; (studentList.size() / THREE); j++) {</span>
+<span class="nc" id="L676">                studentArrayList.add(studentList.get(j));</span>
+            }
+<span class="nc" id="L678">            SchoolClass cl = new SchoolClass(new Name(c + String.valueOf(randomInt)),</span>
+<span class="nc" id="L679">                new Description(&quot;Dies ist eine Schulklasse.&quot;), new Level(String.valueOf(randomInt)),</span>
+<span class="nc" id="L680">                teacherList.get(randomInt), studentList);</span>
+<span class="nc" id="L681">            schoolClasses.add(cl);</span>
+        }
+<span class="nc" id="L683">        return schoolClasses;</span>
+    }
+
+    private static UUID generateId() {
+<span class="nc" id="L687">        return UUID.randomUUID();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

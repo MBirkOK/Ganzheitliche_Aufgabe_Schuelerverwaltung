@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.openknowlegde.ausbildung.mbi.domain.testdata.FirstNames;
-import de.openknowlegde.ausbildung.mbi.domain.testdata.LastNames;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
 import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
 import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
+import de.openknowlegde.ausbildung.mbi.domain.testdata.FirstNames;
+import de.openknowlegde.ausbildung.mbi.domain.testdata.LastNames;
 
 @SuppressWarnings("checkstyle:RegexpSingleline")
 public class Main {

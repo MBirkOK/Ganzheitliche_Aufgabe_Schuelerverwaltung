@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Print.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">application</a> &gt; <a href="index.source.html" class="el_package">de.openknowledge.ausbildung.mbi.userinteraction</a> &gt; <span class="el_source">Print.java</span></div><h1>Print.java</h1><pre class="source lang-java linenums">package de.openknowledge.ausbildung.mbi.userinteraction;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import de.openknowlegde.ausbildung.mbi.domain.person.Human;
+import de.openknowlegde.ausbildung.mbi.domain.person.Student;
+import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
+import de.openknowlegde.ausbildung.mbi.domain.school.Description;
+import de.openknowlegde.ausbildung.mbi.domain.school.Level;
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
+
+/**
+ * The start.Print class is used to produce various outputs with context to the classes, teachers or students.
+ *
+ * @see Student
+ * @see Teacher
+ * @see Human
+ * @see SchoolClass
+ */
+@SuppressWarnings(&quot;checkstyle:RegexpSingleline&quot;)
+<span class="nc" id="L28">public class Print {</span>
+
+    //Used for the creation of the printed table
+    private static final int FIVE = 5;
+
+    private static final String TEACHER = &quot;Lehrer&quot;;
+
+    private static final String STUDENT = &quot;Schueler&quot;;
+
+    //Used for a printed table
+    private static final int THREE = 3;
+
+    //Used for printing teachers/students
+    private static final int FOUR = 4;
+
+    private static final String BLANKSPACE = &quot; &quot;;
+
+    private static final String TABLEFORMAT = &quot;%-25s%-25s%-25s%n&quot;;
+
+    private static final String ASK_FOR_LAST_NAME = &quot;Bitte gib den Nachnamen ein:&quot;;
+
+    private static final String Y = &quot;y&quot;;
+
+    private static final String WHICH_DATA_SHOULD_BE_CHANGED = &quot;Welche Daten sollen verändert werden?&quot;;
+
+    private static final String WHICH_CLASS = &quot;Bitte gib die Klasse an:&quot;;
+
+<span class="nc" id="L55">    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));</span>
+
+    /**
+     * This is the default selection of actions the user can perform with the stored data. On the left side are the data types (teacher,
+     * student, class) and in the second to the fifth column are the different actions that can be performed. Exceptions are the commands
+     * for sorting, exporting and importing the data. Here, too, you can see that the terms are arranged on the left side and the commands
+     * are right next to them.
+     */
+    public static void printTable() {
+<span class="nc" id="L64">        System.out.println(&quot;Tippe das rechts stehende Wort ein um die entsprechende Liste zu bekommen.&quot;);</span>
+<span class="nc" id="L65">        final Object[][] table = new String[FIVE][];</span>
+<span class="nc" id="L66">        table[0] = new String[] {&quot;Klassen&quot;, &quot;classlist&quot;, &quot;classadd&quot;, &quot;classedit&quot;, &quot;classdelete&quot;};</span>
+<span class="nc" id="L67">        table[1] = new String[] {STUDENT, &quot;studentlist&quot;, &quot;studentadd&quot;, &quot;studentedit&quot;, &quot;studentdelete&quot;};</span>
+<span class="nc" id="L68">        table[2] = new String[] {TEACHER, &quot;teacherlist&quot;, &quot;teacheradd&quot;, &quot;teacheredit&quot;, &quot;teacherdelete&quot;};</span>
+<span class="nc" id="L69">        table[THREE] = new String[] {&quot;Datenexport&quot;, &quot;export&quot;, &quot;&quot;, &quot;Datenimport&quot;, &quot;import&quot;};</span>
+<span class="nc" id="L70">        table[FOUR] = new String[] {&quot;Beenden&quot;, &quot;ende&quot;, &quot;&quot;, &quot;Sortierung ändern&quot;, &quot;sort&quot;};</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        for (final Object[] row: table) {</span>
+<span class="nc" id="L73">            System.out.format(&quot;%-25s%-25s%-25s%-25s%-25s%n&quot;, row);</span>
+        }
+<span class="nc" id="L75">    }</span>
+
+    /**
+     * The method is used to output all students that are stored. This output is done depending on the sorting, but with all the data stored
+     * for the student. The student number and the first and last name are output in order.
+     *
+     * @param students
+     *   the list of students in all classes
+     */
+    public static void printTableStudentList(List&lt;Student&gt; students) {
+<span class="nc" id="L85">        final Object[][] table = new String[students.size()][];</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        for (int i = 0; i &lt; students.size(); i++) {</span>
+<span class="nc" id="L87">            table[i] = new String[] {STUDENT,</span>
+<span class="nc" id="L88">              students.get(i).getFirstName().getValue() + BLANKSPACE + students.get(i).getLastName().getValue(),</span>
+<span class="nc" id="L89">              String.valueOf(students.get(i).getNumber())};</span>
+        }
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        for (final Object[] row: table) {</span>
+<span class="nc" id="L93">            System.out.format(TABLEFORMAT, row);</span>
+        }
+<span class="nc" id="L95">    }</span>
+
+    /**
+     * The method can be used to output all data of a class in detail. Beside the data about level, description, name, also the data of the
+     * class teacher, as well as all students contained in the class are output.
+     *
+     * @param print
+     *   the class to be printed
+     */
+    public static void printTableClassDetails(SchoolClass print) {
+<span class="nc" id="L105">        int amount = print.getStudents().size() + FOUR;</span>
+<span class="nc" id="L106">        final Object[][] table = new String[amount][];</span>
+<span class="nc" id="L107">        table[0] = new String[] {&quot;Stufe&quot;, print.getLevel().toString()};</span>
+<span class="nc" id="L108">        table[1] = new String[] {&quot;Beschreibung&quot;, print.getDescription().getValue()};</span>
+<span class="nc" id="L109">        table[2] = new String[] {&quot;Name&quot;, print.getName().getValue()};</span>
+<span class="nc" id="L110">        System.out.println(print.getTeacher().getFirstName().getValue());</span>
+<span class="nc" id="L111">        table[THREE] = new String[] {TEACHER,</span>
+<span class="nc" id="L112">          print.getTeacher().getFirstName().getValue() + BLANKSPACE + print.getTeacher().getLastName().getValue()};</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        for (int i = FOUR; i &lt; amount; i++) {</span>
+<span class="nc" id="L114">            table[i] = new String[] {STUDENT,</span>
+<span class="nc" id="L115">              print.getStudents().get(i - FOUR).getFirstName().getValue() + BLANKSPACE + print.getStudents().get(i - FOUR).getLastName()</span>
+<span class="nc" id="L116">                .getValue()};</span>
+        }
+
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        for (final Object[] row: table) {</span>
+<span class="nc" id="L120">            System.out.format(TABLEFORMAT, row);</span>
+        }
+<span class="nc" id="L122">    }</span>
+
+    /**
+     * The rudimentary data about a teacher is displayed. In addition to the teacher's number, the first name and surname are also
+     * displayed.
+     *
+     * @param teachers
+     *   a list of teachers
+     */
+    public static void printTableTeacherList(List&lt;Teacher&gt; teachers) {
+<span class="nc" id="L132">        final Object[][] table = new String[teachers.size()][];</span>
+<span class="nc" id="L133">        int i = 0;</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        for (Teacher teacher: teachers) {</span>
+<span class="nc" id="L135">            table[i] = new String[] {TEACHER, teacher.getFirstName().getValue() + BLANKSPACE + teacher.getLastName().getValue(),</span>
+<span class="nc" id="L136">              String.valueOf(teacher.getNumber().toString())};</span>
+<span class="nc" id="L137">            i++;</span>
+<span class="nc" id="L138">        }</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        for (final Object[] row: table) {</span>
+<span class="nc" id="L140">            System.out.format(TABLEFORMAT, row);</span>
+        }
+<span class="nc" id="L142">    }</span>
+
+    /**
+     * The equivalent of the output of the teacher and the student. Here, too, the rudimentary data for the class is output, including the
+     * name of the class, the level, and the first and last name of the class teacher.
+     *
+     * @param schoolClasses
+     *   a list of school classes
+     */
+    public static void printTableClasses(List&lt;SchoolClass&gt; schoolClasses) {
+<span class="nc" id="L152">        final Object[][] table = new String[schoolClasses.size()][];</span>
+<span class="nc" id="L153">        int i = 0;</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        for (SchoolClass schoolClass: schoolClasses) {</span>
+<span class="nc" id="L155">            table[i] = new String[] {&quot;Klasse&quot;, schoolClass.getName().getValue(), schoolClass.getLevel().getValue(),</span>
+<span class="nc" id="L156">              schoolClass.getTeacher().getFirstName().getValue() + BLANKSPACE + schoolClass.getTeacher().getLastName().getValue()};</span>
+<span class="nc" id="L157">            i++;</span>
+<span class="nc" id="L158">        }</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        for (final Object[] row: table) {</span>
+<span class="nc" id="L160">            System.out.format(TABLEFORMAT, row);</span>
+        }
+<span class="nc" id="L162">    }</span>
+
+    /**
+     * This method is intended to simplify the entry of personal data. Especially this method would like to have a valid first name and
+     * surname first. Also, a valid phone number, address and date of birth should be entered. All these data are returned in the form of an
+     * array.
+     *
+     * @return an array with all personal data
+     * @throws IOException
+     */
+    public static String[] inputPersonalData() throws IOException {
+<span class="nc" id="L173">        String[] data = new String[FIVE];</span>
+<span class="nc" id="L174">        System.out.println(&quot;Bitte gib den Vornamen ein:&quot;);</span>
+<span class="nc" id="L175">        data[0] = reader.readLine();</span>
+<span class="nc" id="L176">        System.out.println(ASK_FOR_LAST_NAME);</span>
+<span class="nc" id="L177">        data[1] = reader.readLine();</span>
+<span class="nc" id="L178">        data[2] = inputPhone();</span>
+<span class="nc" id="L179">        data[THREE] = inputAdress();</span>
+<span class="nc" id="L180">        data[FOUR] = inputBirthday();</span>
+
+<span class="nc" id="L182">        return data;</span>
+    }
+
+    /**
+     * This method is called when a person is to be changed and is used to survey the person. First, the table is displayed so that the
+     * person to be changed can be selected. By entering the first and last name, this person can be selected.
+     *
+     * @param students
+     *   a list of students
+     * @param teachers
+     *   a list of teachers
+     * @return a human, rather teacher or student
+     * @throws IOException
+     */
+    public static Human whichPerson(List&lt;Student&gt; students, List&lt;Teacher&gt; teachers) throws IOException {
+<span class="nc" id="L197">        printTableStudentList(students);</span>
+<span class="nc" id="L198">        String[] data = new String[2];</span>
+<span class="nc" id="L199">        System.out.println(&quot;Bitte gib den Vornamen der Person ein:&quot;);</span>
+<span class="nc" id="L200">        data[0] = reader.readLine();</span>
+<span class="nc" id="L201">        System.out.println(ASK_FOR_LAST_NAME);</span>
+<span class="nc" id="L202">        data[1] = reader.readLine();</span>
+<span class="nc" id="L203">        Student person = null;</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">        for (Student student: students) {</span>
+<span class="nc bnc" id="L205" title="All 4 branches missed.">            if (data[0].equals(student.getFirstName().getValue()) &amp;&amp; data[1].equals(student.getLastName().getValue())) {</span>
+<span class="nc" id="L206">                person = student;</span>
+            }
+<span class="nc" id="L208">        }</span>
+<span class="nc" id="L209">        return person;</span>
+    }
+
+    /**
+     * A simple redundant query whether the action should really be performed.
+     *
+     * @return true/false, depends on user decision.
+     * @throws IOException
+     */
+    public static boolean redundant() throws IOException {
+<span class="nc" id="L219">        System.out.println(&quot;Soll die Aktion wirklich durchgeführt werden? y/n&quot;);</span>
+<span class="nc" id="L220">        String input = reader.readLine();</span>
+<span class="nc" id="L221">        return input.toLowerCase(Locale.ROOT).equals(Y);</span>
+    }
+
+    /**
+     * A method to query which personal data should be changed. The restriction is that only first name, last name and birthday can be
+     * changed subsequently. For other actions the entity must be created again.
+     *
+     * @return a String array filled with the new data
+     * @throws IOException
+     */
+    public static String[] whichPersonalData() throws IOException {
+<span class="nc" id="L232">        System.out.println(WHICH_DATA_SHOULD_BE_CHANGED);</span>
+<span class="nc" id="L233">        final Object[][] table = new String[1][];</span>
+<span class="nc" id="L234">        table[0] = new String[] {&quot;Vorname&quot;, &quot;Nachname&quot;, &quot;Geburtstag&quot;};</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        for (final Object[] row: table) {</span>
+<span class="nc" id="L236">            System.out.format(TABLEFORMAT, row);</span>
+        }
+<span class="nc" id="L238">        String[] data = new String[2];</span>
+<span class="nc" id="L239">        data[0] = reader.readLine();</span>
+<span class="nc" id="L240">        System.out.println(&quot;Bitte gib die neuen Daten ein:&quot;);</span>
+<span class="nc" id="L241">        data[1] = reader.readLine();</span>
+<span class="nc" id="L242">        return data;</span>
+    }
+
+    /**
+     * Cornerstone for exporting the records. In addition to the query for the encoding, the file name is also queried and a compression of
+     * the data is also requested.
+     *
+     * @return a String array with essentiel data
+     * @throws IOException
+     */
+    public static String[] chooseFileData() throws IOException {
+<span class="nc" id="L253">        String format = chooseFileFormat();</span>
+<span class="nc" id="L254">        String fileName = askForFileName();</span>
+<span class="nc" id="L255">        System.out.println(&quot;Soll eine .zip Datei erstellt werden? j/n&quot;);</span>
+<span class="nc" id="L256">        boolean compressed = false;</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">        if (reader.readLine().equalsIgnoreCase(&quot;j&quot;)) {</span>
+<span class="nc" id="L258">            compressed = true;</span>
+        }
+
+<span class="nc" id="L261">        return new String[] {format, fileName, String.valueOf(compressed)};</span>
+    }
+
+    private static String chooseFileFormat() throws IOException {
+<span class="nc" id="L265">        String format = &quot;UTF-8&quot;;</span>
+        try {
+            do {
+<span class="nc" id="L268">                System.out.println(&quot;Soll ein bestimmtes Format eingehalten werden?&quot;);</span>
+<span class="nc" id="L269">                format = reader.readLine();</span>
+<span class="nc bnc" id="L270" title="All 6 branches missed.">            } while (format.isEmpty() || isBlank(format) || !Charset.isSupported(format));</span>
+<span class="nc" id="L271">        } catch (Exception e) {</span>
+<span class="nc" id="L272">            chooseFileFormat();</span>
+<span class="nc" id="L273">        }</span>
+<span class="nc" id="L274">        return format;</span>
+    }
+
+    public static String askForFileName() throws IOException {
+<span class="nc" id="L278">        System.out.println(&quot;Wie soll die Datei heißen?&quot;);</span>
+<span class="nc" id="L279">        return reader.readLine();</span>
+    }
+
+    public static String whichFile() throws IOException {
+<span class="nc" id="L283">        System.out.println(&quot;Welche Datei soll importiert werden?&quot;);</span>
+<span class="nc" id="L284">        return reader.readLine();</span>
+    }
+
+    /**
+     * Simple method for entering a generic name.
+     *
+     * @return a String with a name
+     * @throws IOException
+     */
+    public static String chooseName() throws IOException {
+<span class="nc" id="L294">        System.out.println(&quot;Bitte gib einen Namen ein:&quot;);</span>
+<span class="nc" id="L295">        return reader.readLine();</span>
+    }
+
+    /**
+     * One of the most elementary methods. This adds a student to a class. To do this, all students without a class are first collected and
+     * then output. Now you can select which student should be added to which class based on the student number.
+     *
+     * @param schoolClassList
+     *   a List of classes in the school
+     * @param studentList
+     *   a list of students in the school
+     * @return a list of students or null
+     * @throws IOException
+     */
+    public static List&lt;Student&gt; addStudentsToClass(List&lt;SchoolClass&gt; schoolClassList, List&lt;Student&gt; studentList) throws IOException {
+<span class="nc" id="L310">        List&lt;Student&gt; studentsWithoutClass = getStudentsWithoutClass(schoolClassList, studentList);</span>
+<span class="nc" id="L311">        printTableStudentList(studentsWithoutClass);</span>
+<span class="nc" id="L312">        System.out.println(&quot;Bitte gib die Schuelernummer an:&quot;);</span>
+<span class="nc" id="L313">        String studentNr = reader.readLine();</span>
+<span class="nc" id="L314">        System.out.println(&quot;In welche Klasse soll der Schueler?&quot;);</span>
+<span class="nc" id="L315">        String className = reader.readLine();</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">        for (SchoolClass schoolClass: schoolClassList) {</span>
+<span class="nc bnc" id="L317" title="All 2 branches missed.">            if (schoolClass.getName().equals(className)) {</span>
+<span class="nc bnc" id="L318" title="All 2 branches missed.">                for (Student student: studentList) {</span>
+<span class="nc bnc" id="L319" title="All 2 branches missed.">                    if (student.getNumber().toString().equals(studentNr)) {</span>
+<span class="nc" id="L320">                        schoolClass.getStudents().add(student);</span>
+                    }
+<span class="nc" id="L322">                }</span>
+            }
+<span class="nc" id="L324">        }</span>
+<span class="nc bnc" id="L325" title="All 2 branches missed.">        for (SchoolClass schoolClassInList : schoolClassList) {</span>
+<span class="nc bnc" id="L326" title="All 2 branches missed.">            if (schoolClassInList.getName().equals(className)) {</span>
+<span class="nc" id="L327">                return schoolClassInList.getStudents();</span>
+            }
+<span class="nc" id="L329">        }</span>
+<span class="nc" id="L330">        return null;</span>
+    }
+
+    private static List&lt;Student&gt; getStudentsWithoutClass(List&lt;SchoolClass&gt; schoolClassList, List&lt;Student&gt; studentList) {
+<span class="nc" id="L334">        List&lt;Student&gt; studentsWithoutClass = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L335" title="All 2 branches missed.">        for (SchoolClass schoolClass: schoolClassList) {</span>
+<span class="nc bnc" id="L336" title="All 2 branches missed.">            for (Student student: studentList) {</span>
+<span class="nc bnc" id="L337" title="All 4 branches missed.">                if (schoolClass.getStudents() != null &amp;&amp; !schoolClass.getStudents().contains(student)) {</span>
+<span class="nc" id="L338">                    studentsWithoutClass.add(student);</span>
+                }
+<span class="nc" id="L340">            }</span>
+<span class="nc" id="L341">        }</span>
+<span class="nc" id="L342">        return studentsWithoutClass;</span>
+    }
+
+    /**
+     * One of the most elementary methods. This adds a teacher to a class. Now you can select which student should be added to which class
+     * based on the student number.
+     *
+     * @param schoolClassList
+     *   a List of classes in the school
+     * @return a list of teachers or null
+     * @throws IOException
+     */
+    public static Teacher addTeacherToClass(List&lt;SchoolClass&gt; schoolClassList, List&lt;Teacher&gt; teacherList) throws IOException {
+<span class="nc" id="L355">        printTableTeacherList(teacherList);</span>
+<span class="nc" id="L356">        System.out.println(&quot;Bitte gib die Lehrernummer an:&quot;);</span>
+<span class="nc" id="L357">        String teacher = reader.readLine();</span>
+<span class="nc" id="L358">        System.out.println(&quot;Zu welcher Klasse soll der Lehrer gehören?&quot;);</span>
+<span class="nc" id="L359">        String schoolClass = reader.readLine();</span>
+<span class="nc bnc" id="L360" title="All 2 branches missed.">        for (SchoolClass inList: schoolClassList) {</span>
+<span class="nc bnc" id="L361" title="All 2 branches missed.">            if (inList.getName().equals(schoolClass)) {</span>
+<span class="nc bnc" id="L362" title="All 2 branches missed.">                for (Teacher teacherInList: teacherList) {</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">                    if (teacherInList.getNumber().toString().equals(teacher)) {</span>
+<span class="nc" id="L364">                        inList.changeTeacher(teacherInList);</span>
+<span class="nc" id="L365">                        return teacherInList;</span>
+                    }
+<span class="nc" id="L367">                }</span>
+            }
+<span class="nc" id="L369">        }</span>
+<span class="nc" id="L370">        return null;</span>
+    }
+
+    /**
+     * Adds the level of a class to a class. First the corresponding class is queried, then the corresponding level can be entered.
+     *
+     * @param schoolClassList
+     *   a list of classes
+     * @return the level of the class
+     * @throws IOException
+     */
+    public static String addLevel(List&lt;SchoolClass&gt; schoolClassList) throws IOException {
+<span class="nc" id="L382">        System.out.println(WHICH_CLASS);</span>
+<span class="nc" id="L383">        String className = reader.readLine();</span>
+<span class="nc" id="L384">        System.out.println(&quot;Welcher Stufe gehört die Klasse an?&quot;);</span>
+<span class="nc" id="L385">        String level = reader.readLine();</span>
+<span class="nc bnc" id="L386" title="All 2 branches missed.">        for (SchoolClass schoolClass: schoolClassList) {</span>
+<span class="nc bnc" id="L387" title="All 2 branches missed.">            if (schoolClass.getName().equals(className)) {</span>
+<span class="nc" id="L388">                schoolClass.setLevel(new Level(level));</span>
+            }
+<span class="nc" id="L390">        }</span>
+<span class="nc" id="L391">        return level;</span>
+    }
+
+    /**
+     * Adds the description of a class to a class. First the corresponding class is queried, then the corresponding description can  be
+     * entered.
+     *
+     * @param schoolClassList
+     *   a list of classes
+     * @return the description of the class
+     * @throws IOException
+     */
+    public static String addDescription(List&lt;SchoolClass&gt; schoolClassList) throws IOException {
+<span class="nc" id="L404">        System.out.println(WHICH_CLASS);</span>
+<span class="nc" id="L405">        String className = reader.readLine();</span>
+<span class="nc" id="L406">        System.out.println(&quot;Welche Beschreibung soll angefügt werden?&quot;);</span>
+<span class="nc" id="L407">        String description = reader.readLine();</span>
+<span class="nc bnc" id="L408" title="All 2 branches missed.">        for (SchoolClass schoolClass: schoolClassList) {</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">            if (schoolClass.getName().equals(className)) {</span>
+<span class="nc" id="L410">                schoolClass.setDescription(new Description(description));</span>
+            }
+<span class="nc" id="L412">        }</span>
+<span class="nc" id="L413">        return description;</span>
+    }
+
+    /**
+     * First displays all classes in the system, which can be used to enter the class name via the console in order to select a class.
+     *
+     * @param schoolClassList
+     *   alist of classes
+     * @return the chosen class
+     * @throws IOException
+     */
+    public static SchoolClass whichClass(List&lt;SchoolClass&gt; schoolClassList) throws IOException {
+<span class="nc" id="L425">        printTableClasses(schoolClassList);</span>
+<span class="nc" id="L426">        System.out.println(WHICH_CLASS);</span>
+<span class="nc" id="L427">        String className = reader.readLine();</span>
+<span class="nc bnc" id="L428" title="All 2 branches missed.">        for (SchoolClass schoolClass: schoolClassList) {</span>
+<span class="nc bnc" id="L429" title="All 2 branches missed.">            if (schoolClass.getName().equals(className)) {</span>
+<span class="nc" id="L430">                return schoolClass;</span>
+            }
+<span class="nc" id="L432">        }</span>
+<span class="nc" id="L433">        return null;</span>
+    }
+
+    /**
+     * Used to modify the data of a class, this method is one of the simplest of its kind. Over an input, which data of a class are to be
+     * changed, appropriate further methods from the actions are executed.
+     *
+     * @param schoolClass
+     *   a Class in a school
+     * @param teacherList
+     *   a list of teachers
+     * @param studentList
+     *   a unused list of students
+     * @throws IOException
+     */
+    public static void changeClassData(SchoolClass schoolClass, List&lt;Teacher&gt; teacherList, List&lt;Student&gt; studentList) throws IOException {
+<span class="nc" id="L449">        System.out.println(WHICH_DATA_SHOULD_BE_CHANGED);</span>
+<span class="nc" id="L450">        List&lt;SchoolClass&gt; schoolClassList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L451">        schoolClassList.add(schoolClass);</span>
+<span class="nc bnc" id="L452" title="All 5 branches missed.">        switch (reader.readLine().toLowerCase(Locale.ROOT)) {</span>
+            case &quot;teacher&quot;:
+<span class="nc" id="L454">                addTeacherToClass(schoolClassList, teacherList);</span>
+            case &quot;student&quot;:
+                //TODO Keine Ahnung wie ich damit umgehen soll
+            case &quot;description&quot;:
+<span class="nc" id="L458">                addDescription(schoolClassList);</span>
+            case &quot;level&quot;:
+<span class="nc" id="L460">                addLevel(schoolClassList);</span>
+            case &quot;name&quot;:
+<span class="nc" id="L462">                schoolClass.setName(new Name(chooseName()));</span>
+            default:
+                break;
+        }
+<span class="nc" id="L466">    }</span>
+
+    /**
+     * A very simple method to insert an adress.
+     *
+     * @return a valid adress
+     * @throws IOException
+     */
+    public static String inputAdress() throws IOException {
+<span class="nc" id="L475">        System.out.println(&quot;Bitte gib eine Adresse in folgendem Format ein: Straße Hausnummer, PLZ Stadt&quot;);</span>
+<span class="nc" id="L476">        return reader.readLine();</span>
+    }
+
+    /**
+     * A very simple method to insert a birthday date.
+     *
+     * @return a valid birthday as string
+     * @throws IOException
+     */
+    public static String inputBirthday() throws IOException {
+<span class="nc" id="L486">        System.out.println(&quot;Bitte gib deinen Geburtstag in folgendem Format ein: YYYY-MM-DD&quot;);</span>
+<span class="nc" id="L487">        return reader.readLine();</span>
+    }
+
+    private static String inputPhone() throws IOException {
+<span class="nc" id="L491">        System.out.println(&quot;Bitte gib eine Telefonnummer ein:&quot;);</span>
+<span class="nc" id="L492">        return reader.readLine();</span>
+    }
+
+    /**
+     * A very simple method to insert a file path.
+     *
+     * @return a file path as string
+     * @throws IOException
+     */
+    public static String inputPath() throws IOException {
+<span class="nc" id="L502">        System.out.println(&quot;Bitte gib einen Pfad ein:&quot;);</span>
+<span class="nc" id="L503">        return reader.readLine();</span>
+    }
+
+    /**
+     * This method returns a boolean equals to the choice the user made.
+     */
+
+    public static boolean yesNo() throws IOException {
+<span class="nc" id="L511">        System.out.println(&quot;Sollen die Daten vom letzten Mal genutzt werden? y/n&quot;);</span>
+<span class="nc" id="L512">        return reader.readLine().toLowerCase(Locale.ROOT).equals(Y);</span>
+    }
+
+    private static boolean isBlank(String charset) {
+<span class="nc" id="L516">        charset.replaceAll(&quot;\\s&quot;, &quot;&quot;);</span>
+<span class="nc" id="L517">        charset.trim();</span>
+<span class="nc bnc" id="L518" title="All 2 branches missed.">        if (charset.isEmpty()) {</span>
+<span class="nc" id="L519">            return true;</span>
+        }
+<span class="nc" id="L521">        return false;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

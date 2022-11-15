@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">application</a> &gt; <a href="index.source.html" class="el_package">de.openknowledge.ausbildung.mbi.userinteraction</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package de.openknowledge.ausbildung.mbi.userinteraction;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import de.openknowlegde.ausbildung.mbi.domain.person.Student;
+import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
+import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
+import de.openknowlegde.ausbildung.mbi.domain.testdata.FirstNames;
+import de.openknowlegde.ausbildung.mbi.domain.testdata.LastNames;
+
+@SuppressWarnings(&quot;checkstyle:RegexpSingleline&quot;)
+<span class="nc" id="L22">public class Main {</span>
+
+    //Only import/export CSV Files
+    public static final String CSV = &quot;.csv&quot;;
+
+    //Import/Export ZIP Files
+    public static final String ZIP = &quot;.zip&quot;;
+
+    public static final String DEFAULT_PATH = &quot;C:\\Users\\Marius.Birk\\IdeaProjects\\Ganzheitliche Aufgabe Schuelerverwaltung&quot;;
+
+    public static final String DEFAULT_FORMAT = &quot;UTF-8&quot;;
+    private static final String SLASHES = &quot;\\&quot;;
+
+<span class="nc" id="L35">    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));</span>
+
+<span class="nc" id="L37">    private static HashMap&lt;String, List&lt;String&gt;&gt; map = new HashMap&lt;&gt;();</span>
+
+    private static List&lt;Teacher&gt; teachers;
+
+    private static List&lt;Student&gt; students;
+
+    private static List&lt;SchoolClass&gt; schoolClassList;
+
+    private static String sort;
+
+    private static final String ASC = &quot;asc&quot;;
+
+    private static final String CLASS = &quot;class&quot;;
+
+    private static final String TEACHER = &quot;teacher&quot;;
+
+    private static final String STUDENT = &quot;student&quot;;
+
+    private static final String EXPORT = &quot;export&quot;;
+
+    private static final String IMPORT = &quot;import&quot;;
+
+<span class="nc" id="L59">    private static final SecureRandom RANDOM = new SecureRandom();</span>
+
+    public static void main(String[] args) throws Exception {
+<span class="nc" id="L62">        FileManagement fileManagement = new FileManagement();</span>
+<span class="nc" id="L63">        startUp();</span>
+<span class="nc" id="L64">        Print.printTable();</span>
+<span class="nc" id="L65">        String input = reader.readLine();</span>
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        while (!input.equals(&quot;ende&quot;)) {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            if (input.equals(&quot;sort&quot;)) {</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                if (sort.equals(ASC)) {</span>
+<span class="nc" id="L70">                    reverseSort();</span>
+                } else {
+<span class="nc" id="L72">                    sort = ASC;</span>
+                }
+<span class="nc bnc" id="L74" title="All 2 branches missed.">            } else if (input.equals(EXPORT)) {</span>
+<span class="nc" id="L75">                String[] fileData = Print.chooseFileData();</span>
+<span class="nc" id="L76">                String path = Actions.createPath(Print.inputPath());</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                while (path.equals(&quot;false&quot;)) {</span>
+<span class="nc" id="L78">                    path = Actions.createPath(Print.inputPath());</span>
+                }
+<span class="nc" id="L80">                File firstFile = fileManagement.exportPersonData(teachers, students, schoolClassList, path, fileData[0], fileData[1]);</span>
+<span class="nc" id="L81">                File secondFile = fileManagement.exportClasses(schoolClassList, firstFile.getParent(), fileData[0], teachers, students);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                if (fileData[2].equals(&quot;true&quot;)) {</span>
+<span class="nc" id="L83">                    fileManagement.mergeToZipFile(firstFile, secondFile, path);</span>
+                }
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            } else if (input.equals(IMPORT)) {</span>
+<span class="nc" id="L86">                String path = Actions.createPath(Print.inputPath());</span>
+<span class="nc" id="L87">                String fileName = Print.whichFile();</span>
+<span class="nc" id="L88">                String filePath = path + SLASHES + fileName;</span>
+<span class="nc" id="L89">                importData(fileManagement, filePath);</span>
+<span class="nc" id="L90">            } else {</span>
+<span class="nc" id="L91">                chooseAction(input);</span>
+            }
+<span class="nc" id="L93">            Print.printTable();</span>
+<span class="nc" id="L94">            input = reader.readLine();</span>
+        }
+<span class="nc" id="L96">        fileManagement.exportPersonData(teachers, students, schoolClassList, DEFAULT_PATH, DEFAULT_FORMAT, EXPORT);</span>
+<span class="nc" id="L97">        fileManagement.exportClasses(schoolClassList, DEFAULT_PATH, DEFAULT_FORMAT, teachers, students);</span>
+<span class="nc" id="L98">    }</span>
+
+    private static void importData(FileManagement fileManagement, String path) throws IOException {
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (path.contains(&quot;Klassenliste&quot;)) {</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            if (path.contains(CSV)) {</span>
+<span class="nc" id="L103">                schoolClassList.addAll(fileManagement.importClasses(path, teachers, students));</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            } else if (path.contains(ZIP)) {</span>
+<span class="nc" id="L105">                schoolClassList.addAll(fileManagement.importClassesFromZip(path, teachers, students));</span>
+            }
+        } else {
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (path.endsWith(CSV)) {</span>
+<span class="nc" id="L109">                teachers.addAll(fileManagement.importTeachers(path));</span>
+<span class="nc" id="L110">                students.addAll(fileManagement.importStudents(path));</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            } else if (path.endsWith(ZIP)) {</span>
+<span class="nc" id="L112">                teachers.addAll(fileManagement.importTeachersFromZip(path));</span>
+<span class="nc" id="L113">                students.addAll(fileManagement.importStudentsFromZip(path));</span>
+            }
+        }
+<span class="nc" id="L116">    }</span>
+
+
+    static Name randomFirstName() {
+<span class="nc" id="L120">        return new Name(FirstNames.values()[RANDOM.nextInt(FirstNames.values().length)].name());</span>
+    }
+
+    static Name randomLastName() {
+<span class="nc" id="L124">        return new Name(LastNames.values()[RANDOM.nextInt(LastNames.values().length)].name());</span>
+    }
+
+    private static void startUp() throws IOException {
+<span class="nc" id="L128">        System.out.println(&quot;Starting Management&quot;);</span>
+<span class="nc" id="L129">        sort = ASC;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (Print.yesNo()) {</span>
+<span class="nc" id="L131">            FileManagement fileManagement = new FileManagement();</span>
+<span class="nc" id="L132">            teachers = fileManagement.importTeachers(DEFAULT_PATH + SLASHES + EXPORT + CSV);</span>
+<span class="nc" id="L133">            students = fileManagement.importStudents(DEFAULT_PATH + SLASHES + EXPORT + CSV);</span>
+<span class="nc" id="L134">            schoolClassList = fileManagement.importClasses(DEFAULT_PATH + SLASHES + &quot;Klassenliste.csv&quot;, teachers, students);</span>
+<span class="nc" id="L135">        } else {</span>
+<span class="nc" id="L136">            teachers = FileManagement.generateTeachers();</span>
+<span class="nc" id="L137">            students = FileManagement.generateStudents();</span>
+<span class="nc" id="L138">            schoolClassList = FileManagement.generateClasses(teachers, students);</span>
+        }
+<span class="nc" id="L140">        ArrayList&lt;String&gt; actions = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L141">        actions.add(&quot;add&quot;);</span>
+<span class="nc" id="L142">        actions.add(&quot;edit&quot;);</span>
+<span class="nc" id="L143">        actions.add(&quot;delete&quot;);</span>
+<span class="nc" id="L144">        actions.add(&quot;list&quot;);</span>
+
+<span class="nc" id="L146">        map.put(CLASS, actions);</span>
+<span class="nc" id="L147">        map.put(TEACHER, actions);</span>
+<span class="nc" id="L148">        map.put(STUDENT, actions);</span>
+
+<span class="nc" id="L150">        Collections.sort(schoolClassList);</span>
+<span class="nc" id="L151">        Collections.sort(teachers);</span>
+<span class="nc" id="L152">        Collections.sort(students);</span>
+
+<span class="nc" id="L154">        System.out.println(&quot;Start up complete.&quot;);</span>
+<span class="nc" id="L155">    }</span>
+
+    private static void chooseAction(String input) throws IOException {
+<span class="nc bnc" id="L158" title="All 2 branches missed.">        for (Map.Entry&lt;String, List&lt;String&gt;&gt; entry : map.entrySet()) {</span>
+<span class="nc" id="L159">            String action = input.substring(entry.getKey().length());</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">            if (input.substring(0, entry.getKey().length()).compareTo(CLASS) == 0) {</span>
+<span class="nc" id="L161">                Actions.classActions(action, schoolClassList, students, teachers);</span>
+<span class="nc" id="L162">                break;</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">            } else if (input.substring(0, entry.getKey().length()).compareTo(TEACHER) == 0) {</span>
+<span class="nc" id="L164">                Actions.teacherActions(action, teachers);</span>
+<span class="nc" id="L165">                break;</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">            } else if (input.substring(0, entry.getKey().length()).compareTo(STUDENT) == 0) {</span>
+<span class="nc" id="L167">                Actions.studentActions(action, students);</span>
+<span class="nc" id="L168">                break;</span>
+            }
+<span class="nc" id="L170">        }</span>
+<span class="nc" id="L171">    }</span>
+
+    private static void reverseSort() {
+<span class="nc" id="L174">        sort = &quot;desc&quot;;</span>
+<span class="nc" id="L175">        schoolClassList.sort(Collections.reverseOrder());</span>
+<span class="nc" id="L176">        teachers.sort(Collections.reverseOrder());</span>
+<span class="nc" id="L177">        students.sort(Collections.reverseOrder());</span>
+<span class="nc" id="L178">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

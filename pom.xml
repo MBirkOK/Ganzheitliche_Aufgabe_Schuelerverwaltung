@@ -20,9 +20,6 @@
         <module>domain</module>
     </modules>
 
-    <dependencies>
-    </dependencies>
-
     <reporting>
         <plugins>
             <plugin>
@@ -54,6 +51,26 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.8</version>
                 <executions>
+                    <execution>
+                        <id>jacoco-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.0</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
