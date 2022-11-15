@@ -71,7 +71,6 @@ public class FileManagementTest {
      * @throws IOException
      */
     @Test
-    @Disabled
     public void importClassesAndCheckOnLengthTest() throws IOException {
         List<Student> importedStudents = fileManagement.importStudents(CSV_FILE_PATH + "\\testdata.csv");
         List<Teacher> importedTeachers = fileManagement.importTeachers(CSV_FILE_PATH + "\\testdata.csv");
