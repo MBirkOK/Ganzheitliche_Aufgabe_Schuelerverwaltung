@@ -7,8 +7,8 @@ import de.openknowlegde.ausbildung.mbi.domain.adressing.City;
 import de.openknowlegde.ausbildung.mbi.domain.adressing.HouseNumber;
 import de.openknowlegde.ausbildung.mbi.domain.adressing.Street;
 import de.openknowlegde.ausbildung.mbi.domain.adressing.Zip;
-import de.openknowlegde.ausbildung.mbi.domain.example.CityList;
-import de.openknowlegde.ausbildung.mbi.domain.example.StreetList;
+import de.openknowlegde.ausbildung.mbi.domain.testdata.CityList;
+import de.openknowlegde.ausbildung.mbi.domain.testdata.StreetList;
 
 
 /**
