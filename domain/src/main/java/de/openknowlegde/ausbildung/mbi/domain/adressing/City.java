@@ -2,27 +2,25 @@ package de.openknowlegde.ausbildung.mbi.domain.adressing;
 
 import java.util.Objects;
 
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
-
 public class City implements Comparable<City> {
 
-    Name name;
+    CityName name;
 
-    public City(Name name) {
+    public City(CityName name) {
         this.name = name;
     }
 
-    public Name getName() {
+    public CityName getName() {
         return name;
     }
 
-    public Name changeName(Name newName) {
+    public CityName changeName(CityName newName) {
         if (this.name.valid(newName.getValue())) {
             this.name = newName;
         } else {
             throw new IllegalArgumentException("Name nicht valide.");
         }
-        return new Name(this.name.getValue());
+        return new CityName(this.name.getValue());
     }
 
     @Override

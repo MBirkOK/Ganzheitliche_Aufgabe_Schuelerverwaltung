@@ -1,4 +1,4 @@
-package de.openknowlegde.ausbildung.mbi.domain.persondata;
+package de.openknowlegde.ausbildung.mbi.domain.person;
 
 import java.time.LocalDate;
 import java.util.Objects;

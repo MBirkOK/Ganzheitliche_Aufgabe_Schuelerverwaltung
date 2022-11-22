@@ -2,31 +2,31 @@ package de.openknowlegde.ausbildung.mbi.domain.adressing;
 
 import java.util.Objects;
 
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
+import de.openknowlegde.ausbildung.mbi.domain.person.FirstName;
 
 public class Street implements Comparable<Street> {
 
-    Name street;
+    FirstName street;
 
-    public Street(Name street) {
+    public Street(FirstName street) {
         this.street = street;
     }
 
-    public Name getStreet() {
+    public FirstName getStreet() {
         return street;
     }
 
-    public Name changeStreet(Name updatedStreet) {
+    public FirstName changeStreet(FirstName updatedStreet) {
         if (this.street.valid(updatedStreet.getValue())) {
             this.street = updatedStreet;
         } else {
             throw new IllegalArgumentException("Name nicht valide.");
         }
-        return new Name(this.street.getValue());
+        return new FirstName(this.street.getValue());
     }
 
     public Street fromString(String newStreet) {
-        return new Street(new Name(newStreet));
+        return new Street(new FirstName(newStreet));
     }
 
     @Override

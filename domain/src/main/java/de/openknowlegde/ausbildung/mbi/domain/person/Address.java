@@ -1,9 +1,10 @@
-package de.openknowlegde.ausbildung.mbi.domain.persondata;
+package de.openknowlegde.ausbildung.mbi.domain.person;
 
 import java.security.SecureRandom;
 import java.util.Objects;
 
 import de.openknowlegde.ausbildung.mbi.domain.adressing.City;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.CityName;
 import de.openknowlegde.ausbildung.mbi.domain.adressing.HouseNumber;
 import de.openknowlegde.ausbildung.mbi.domain.adressing.Street;
 import de.openknowlegde.ausbildung.mbi.domain.adressing.Zip;
@@ -15,7 +16,7 @@ import de.openknowlegde.ausbildung.mbi.domain.testdata.StreetList;
  * This class is used as a Value Object to map the address in the Human class. Each address has a street, a house number, a postal code and
  * a city.
  */
-public class Adress {
+public class Address {
     //Random house number from 1 to 100
     private static final int HUNDRED = 100;
 
@@ -41,7 +42,7 @@ public class Adress {
      * @param zipcode     postal code where the place is
      * @param city        city name to the postal code
      */
-    public Adress(Street street, HouseNumber houseNumber, Zip zipcode, City city) {
+    public Address(Street street, HouseNumber houseNumber, Zip zipcode, City city) {
         this.street = street;
         this.houseNumber = houseNumber;
         this.zipcode = zipcode;
@@ -51,7 +52,7 @@ public class Adress {
     /**
      * Empty constructor. It creates an empty Adress to the person.
      */
-    public Adress() {
+    public Address() {
     }
 
     public Street getStreet() {
@@ -98,10 +99,10 @@ public class Adress {
      *
      * @return a new Adress filled with all random data
      */
-    public Adress randomAdress() {
-        return new Adress(new Street(new Name(StreetList.values()[RANDOM.nextInt(StreetList.values().length)].name())),
+    public Address randomAdress() {
+        return new Address(new Street(new FirstName(StreetList.values()[RANDOM.nextInt(StreetList.values().length)].name())),
             new HouseNumber(RANDOM.nextInt(HUNDRED)), new Zip(RANDOM.nextInt(UPPER)),
-            new City(new Name(CityList.values()[RANDOM.nextInt(CityList.values().length)].name())));
+            new City(new CityName(CityList.values()[RANDOM.nextInt(CityList.values().length)].name())));
     }
 
     @Override
@@ -112,9 +113,9 @@ public class Adress {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Adress adress = (Adress)o;
-        return Objects.equals(street, adress.street) && Objects.equals(houseNumber, adress.houseNumber)
-            && Objects.equals(zipcode, adress.zipcode) && Objects.equals(city, adress.city);
+        Address address = (Address)o;
+        return Objects.equals(street, address.street) && Objects.equals(houseNumber, address.houseNumber)
+            && Objects.equals(zipcode, address.zipcode) && Objects.equals(city, address.city);
     }
 
     @Override
@@ -122,9 +123,9 @@ public class Adress {
         return Objects.hash(street, houseNumber, zipcode, city);
     }
 
-    public boolean validate(Adress adress) {
-        if (adress.getCity() == null || adress.getStreet() == null || adress.getZipcode() == null
-            || adress.getHouseNumber() == null) {
+    public boolean validate(Address address) {
+        if (address.getCity() == null || address.getStreet() == null || address.getZipcode() == null
+            || address.getHouseNumber() == null) {
             return false;
         }
         return true;

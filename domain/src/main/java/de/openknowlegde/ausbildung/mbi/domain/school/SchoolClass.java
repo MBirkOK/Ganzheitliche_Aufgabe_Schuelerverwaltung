@@ -1,18 +1,18 @@
 package de.openknowlegde.ausbildung.mbi.domain.school;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
 
 /**
  * The class of the class is used to represent a school class. It is important that each class has a name, a description, a level, a teacher
  * and a corresponding number of students.
  */
 public class SchoolClass implements Comparable<SchoolClass> {
-    private Name name;
+    private ClassName name;
 
     private Description description;
 
@@ -32,7 +32,7 @@ public class SchoolClass implements Comparable<SchoolClass> {
      * @param teacher     the primary teacher of the class
      * @param students    a list of students in the class
      */
-    public SchoolClass(Name name, Description description, Level level, Teacher teacher, List<Student> students) {
+    public SchoolClass(ClassName name, Description description, Level level, Teacher teacher, List<Student> students) {
         this.name = name;
         this.description = description;
         this.level = level;
@@ -40,11 +40,19 @@ public class SchoolClass implements Comparable<SchoolClass> {
         this.students = students;
     }
 
-    public Name getName() {
+    public SchoolClass() {
+        this.name = new ClassName("");
+        this.description = new Description("");
+        this.level = new Level("");
+        this.teacher = new Teacher();
+        this.students = new ArrayList<>();
+    }
+
+    public ClassName getName() {
         return name;
     }
 
-    public void setName(Name name) {
+    public void setName(ClassName name) {
         this.name = name;
     }
 
@@ -70,7 +78,7 @@ public class SchoolClass implements Comparable<SchoolClass> {
     }
 
     public Teacher changeTeacher(Teacher updatingTeacher) {
-        if (teacher.isValid()) {
+        if (teacher == null || teacher.isValid()) {
             this.teacher = updatingTeacher;
             return this.teacher;
         } else {
@@ -135,7 +143,7 @@ public class SchoolClass implements Comparable<SchoolClass> {
         return true;
     }
 
-    private boolean checkClassData(Name className, String classDescription, String classLevel) {
+    private boolean checkClassData(ClassName className, String classDescription, String classLevel) {
         if (className == null || classDescription == null || classLevel == null) {
             return false;
         }

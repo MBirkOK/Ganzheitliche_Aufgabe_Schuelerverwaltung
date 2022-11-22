@@ -5,10 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Adress;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Birthday;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 
 /**
  * Human is used to abstract the classes of student and teacher. Both mentioned classes contain the same information and differ only in
@@ -20,45 +17,50 @@ public abstract class Human implements Comparable<Human> {
 
     private final UUID number;
 
-    private final Name firstName;
+    private final FirstName firstName;
 
-    private final Name lastName;
+    private final LastName lastName;
 
     private Set<Phone> phone;
 
-    private Set<Adress> adress;
+    private Set<Address> addresses;
 
-    private Birthday birthday;
+    private final Birthday birthday;
+
+    private SchoolClass schoolClass;
 
     /**
      * Standard constructor for the human class. This constructor is used indirectly for teachers and students and gets the most important
      * information.
      *
-     * @param number    used as an ID
+     * @param number         used as an ID
      * @param firstName firstname of the person
      * @param lastName  last name of the person
-     * @param phone     a list of phone numbers of the person
-     * @param adress    a list of adresses of the person
-     * @param birthday  a birthday as LocalDate standart
+     * @param phone          a list of phone numbers of the person
+     * @param addresses      a list of adresses of the person
+     * @param birthday       a birthday as LocalDate standart
+     * @param schoolClass   the schoolClass, the person belongs to
      */
-    public Human(UUID number, Name firstName, Name lastName, Set<Phone> phone, Set<Adress> adress, Birthday birthday) {
+    public Human(UUID number, FirstName firstName, LastName lastName, Set<Phone> phone, Set<Address> addresses,
+        Birthday birthday, SchoolClass schoolClass) {
         this.number = number;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
-        this.adress = adress;
+        this.addresses = addresses;
         this.birthday = birthday;
+        this.schoolClass = schoolClass;
     }
 
     public UUID getNumber() {
         return number;
     }
 
-    public Name getFirstName() {
+    public FirstName getFirstName() {
         return firstName;
     }
 
-    public Name getLastName() {
+    public LastName getLastName() {
         return lastName;
     }
 
@@ -82,30 +84,38 @@ public abstract class Human implements Comparable<Human> {
         this.phone.remove(toRemove);
     }
 
-    public Set<Adress> getAdress() {
-        return adress;
+    public Set<Address> getAdress() {
+        return addresses;
     }
 
     /**
      * This method first checks if a valid List of adress' exists and then adds the given adress.
      *
-     * @param additionalAdress adress to be added
+     * @param additionalAddress adress to be added
      */
-    public void addAdress(Adress additionalAdress) {
-        if (this.adress == null) {
-            this.adress = new HashSet<>();
+    public void addAdress(Address additionalAddress) {
+        if (this.addresses == null) {
+            this.addresses = new HashSet<>();
         }
-        if (!this.adress.contains(additionalAdress)) {
-            this.adress.add(additionalAdress);
+        if (!this.addresses.contains(additionalAddress)) {
+            this.addresses.add(additionalAddress);
         }
     }
 
-    protected void deleteAdress(Adress toRemove) {
-        this.adress.remove(toRemove);
+    protected void deleteAdress(Address toRemove) {
+        this.addresses.remove(toRemove);
     }
 
     public Birthday getBirthday() {
         return birthday;
+    }
+
+    public SchoolClass getSchoolClass() {
+        return schoolClass;
+    }
+
+    public void changeSchoolClass(SchoolClass newSchoolClass) {
+        this.schoolClass = newSchoolClass;
     }
 
     /**
@@ -140,12 +150,12 @@ public abstract class Human implements Comparable<Human> {
         Human human = (Human)o;
         return Objects.equals(number, human.number) && Objects.equals(firstName, human.firstName)
             && Objects.equals(lastName, human.lastName) && Objects.equals(phone, human.phone)
-            && Objects.equals(adress, human.adress) && Objects.equals(birthday, human.birthday);
+            && Objects.equals(addresses, human.addresses) && Objects.equals(birthday, human.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, firstName, lastName, phone, adress, birthday);
+        return Objects.hash(number, firstName, lastName, phone, addresses, birthday);
     }
 
 
@@ -173,11 +183,8 @@ public abstract class Human implements Comparable<Human> {
         }
     }
 
-    public boolean areSetsEmpty(Set<Adress> adresses, Set<Phone> phones) {
-        if (adresses.isEmpty() || phones.isEmpty()) {
-            return true;
-        }
-        return false;
+    public boolean areSetsEmpty(Set<Address> address, Set<Phone> phones) {
+        return address.isEmpty() || phones.isEmpty();
     }
 
     public boolean isValid() {

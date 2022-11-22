@@ -1,4 +1,4 @@
-package de.openknowlegde.ausbildung.mbi.domain.persondata;
+package de.openknowlegde.ausbildung.mbi.domain.person;
 
 import java.util.Objects;
 
@@ -6,10 +6,10 @@ import java.util.Objects;
  * The class Name is used as a Value Object , which just holds the information about the specific name.
  */
 
-public class Name implements Comparable<Name> {
+public class FirstName implements Comparable<FirstName> {
     private String value;
 
-    public Name(String name) {
+    public FirstName(String name) {
         this.value = name;
     }
 
@@ -43,8 +43,8 @@ public class Name implements Comparable<Name> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Name name = (Name)o;
-        return Objects.equals(value, name.value);
+        FirstName firstName = (FirstName)o;
+        return Objects.equals(value, firstName.value);
     }
 
     @Override
@@ -54,12 +54,12 @@ public class Name implements Comparable<Name> {
 
 
     @Override
-    public int compareTo(Name that) {
+    public int compareTo(FirstName that) {
         return this.getValue().compareTo(that.getValue());
     }
 
-    private boolean validate(Name name) {
-        if (name.getValue() == null) {
+    private boolean validate(FirstName firstName) {
+        if (firstName.getValue() == null) {
             return false;
         }
         return true;

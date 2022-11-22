@@ -3,10 +3,7 @@ package de.openknowlegde.ausbildung.mbi.domain.person;
 import java.util.Set;
 import java.util.UUID;
 
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Adress;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Birthday;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 
 /**
  * The class is used to represent the student. By abstracting with the teacher into the human class, it is possible that the separation of
@@ -14,8 +11,9 @@ import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
  */
 
 public class Student extends Human {
-    public Student(UUID number, Name firstName, Name lastName, Set<Phone> phone, Set<Adress> adress, Birthday birthday) {
-        super(number, firstName, lastName, phone, adress, birthday);
+    public Student(UUID number, FirstName firstFirstName, LastName lastFirstName, Set<Phone> phone,
+        Set<Address> addresses, Birthday birthday, SchoolClass schoolClass) {
+        super(number, firstFirstName, lastFirstName, phone, addresses, birthday, schoolClass);
     }
 
     /**

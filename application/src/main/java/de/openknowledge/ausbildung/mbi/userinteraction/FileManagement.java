@@ -26,17 +26,21 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import de.openknowlegde.ausbildung.mbi.domain.actions.Actions;
 import de.openknowlegde.ausbildung.mbi.domain.adressing.City;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.CityName;
 import de.openknowlegde.ausbildung.mbi.domain.adressing.HouseNumber;
 import de.openknowlegde.ausbildung.mbi.domain.adressing.Street;
 import de.openknowlegde.ausbildung.mbi.domain.adressing.Zip;
+import de.openknowlegde.ausbildung.mbi.domain.person.Address;
+import de.openknowlegde.ausbildung.mbi.domain.person.Birthday;
+import de.openknowlegde.ausbildung.mbi.domain.person.FirstName;
 import de.openknowlegde.ausbildung.mbi.domain.person.Human;
+import de.openknowlegde.ausbildung.mbi.domain.person.LastName;
+import de.openknowlegde.ausbildung.mbi.domain.person.Phone;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Adress;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Birthday;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Phone;
+import de.openknowlegde.ausbildung.mbi.domain.school.ClassName;
 import de.openknowlegde.ausbildung.mbi.domain.school.Description;
 import de.openknowlegde.ausbildung.mbi.domain.school.Level;
 import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
@@ -114,6 +118,7 @@ public class FileManagement {
      * @return a list of teachers
      * @throws IOException
      */
+    @SuppressWarnings("methodlength")
     public List<Teacher> importTeachers(String path) throws IOException {
         try {
             String line;
@@ -125,24 +130,29 @@ public class FileManagement {
                     continue;
                 }
                 String[] birthday = lineArray[THREE].split(MINUS);
-                Set<Adress> adresses = new HashSet<>();
+                Set<Address> addresses = new HashSet<>();
                 Set<Phone> phones = new HashSet<>();
                 for (int i = FIVE; i < lineArray.length; i++) {
-                    int alphabeticInLinePosition = getAlphabeticInLinePosition(lineArray[i]);
-                    if (alphabeticInLinePosition != 0) {
-                        String[] adress = lineArray[i].split(BLANKSPACE);
-                        adresses.add(createAdress(adress));
+                    if (getAlphabeticInLinePosition(lineArray[i]) != 0) {
+                        addresses.add(createAdress(lineArray[i].split(BLANKSPACE)));
                     } else {
-                        String[] phone = lineArray[i].split(BLANKSPACE);
-                        phones.add(new Phone(phone[0]));
+                        phones.add(new Phone(lineArray[i].split(BLANKSPACE)[0]));
                     }
                 }
                 LocalDate birthdate = LocalDate.of(Integer.parseInt(birthday[0]), Integer.parseInt(birthday[1]),
                     Integer.parseInt(birthday[2]));
-                Teacher teacherToAdd = new Teacher(UUID.fromString(lineArray[0]), new Name(lineArray[1]),
-                    new Name(lineArray[2]), null, adresses, new Birthday(birthdate));
-
-                teacherList.add(teacherToAdd);
+                if (lineArray[lineArray.length - 1].length() <= 2) {
+                    SchoolClass schoolClass = new SchoolClass(new ClassName(lineArray[lineArray.length - 1]), new Description(""),
+                        new Level(""), null, new ArrayList<>());
+                    Teacher teacherToAdd = new Teacher(UUID.fromString(lineArray[0]), new FirstName(lineArray[1]),
+                        new LastName(lineArray[2]), new HashSet<>(), addresses, new Birthday(birthdate), schoolClass);
+                    teacherToAdd.getSchoolClass().changeTeacher(teacherToAdd);
+                    teacherList.add(teacherToAdd);
+                } else {
+                    Teacher teacherToAdd = new Teacher(UUID.fromString(lineArray[0]), new FirstName(lineArray[1]),
+                        new LastName(lineArray[2]), new HashSet<>(), addresses, new Birthday(birthdate), null);
+                    teacherList.add(teacherToAdd);
+                }
             }
             return teacherList;
         } catch (Exception e) {
@@ -151,10 +161,10 @@ public class FileManagement {
         }
     }
 
-    private Adress createAdress(String[] adress) {
-        return new Adress(new Street(new Name(adress[0])),
+    private Address createAdress(String[] adress) {
+        return new Address(new Street(new FirstName(adress[0])),
             new HouseNumber(Integer.parseInt(adress[1])), new Zip(Integer.parseInt(adress[2])),
-            new City(new Name(adress[THREE])));
+            new City(new CityName(adress[THREE])));
     }
 
 
@@ -166,31 +176,33 @@ public class FileManagement {
             if (lineArray.length > FOUR) {
                 if (lineArray[FOUR].equals(TEACHER)) {
                     String[] birthday = lineArray[THREE].split(MINUS);
-                    Set<Adress> adresses = new HashSet<>();
+                    Set<Address> addresses = new HashSet<>();
                     Set<Phone> phones = new HashSet<>();
                     int lineArraySize = lineArray.length;
                     for (int i = FIVE; i < lineArraySize; i++) {
                         if (lineArray.length > SEVEN) {
                             lineArraySize = lineArraySize - 1;
                         }
-                        int alphabeticInLinePosition = getAlphabeticInLinePosition(lineArray[i]);
-                        if (alphabeticInLinePosition != 0) {
-                            String[] adress = lineArray[i].split(BLANKSPACE);
-                            adresses.add(createAdress(adress));
+                        if (getAlphabeticInLinePosition(lineArray[i]) != 0) {
+                            addresses.add(createAdress(lineArray[i].split(BLANKSPACE)));
                         } else {
-                            String[] phone = lineArray[i].split(BLANKSPACE);
-                            phones.add(new Phone(phone[0]));
+                            phones.add(new Phone(lineArray[i].split(BLANKSPACE)[0]));
                         }
                     }
-                    int day = Integer.parseInt(birthday[0]);
-                    int month = Integer.parseInt(birthday[1]);
-                    int year = Integer.parseInt(birthday[2]);
-                    LocalDate birthdate = LocalDate.of(day, month, year);
-                    UUID uuidFromString = UUID.fromString(lineArray[0]);
-                    Teacher teacherToAdd = new Teacher(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]),
-                        phones, adresses, new Birthday(birthdate));
-
-                    teacherList.add(teacherToAdd);
+                    LocalDate birthdate = LocalDate.of(Integer.parseInt(birthday[0]), Integer.parseInt(birthday[1]),
+                        Integer.parseInt(birthday[2]));
+                    if (lineArray[lineArray.length - 1].length() <= 2) {
+                        SchoolClass schoolClass = new SchoolClass(new ClassName(lineArray[lineArray.length - 1]), new Description(""),
+                            new Level(""), null, new ArrayList<>());
+                        Teacher teacherToAdd = new Teacher(UUID.fromString(lineArray[0]), new FirstName(lineArray[1]),
+                            new LastName(lineArray[2]), new HashSet<>(), addresses, new Birthday(birthdate), schoolClass);
+                        teacherToAdd.getSchoolClass().changeTeacher(teacherToAdd);
+                        teacherList.add(teacherToAdd);
+                    } else {
+                        Teacher teacherToAdd = new Teacher(UUID.fromString(lineArray[0]), new FirstName(lineArray[1]),
+                            new LastName(lineArray[2]), new HashSet<>(), addresses, new Birthday(birthdate), new SchoolClass());
+                        teacherList.add(teacherToAdd);
+                    }
                 }
             }
         }
@@ -231,8 +243,12 @@ public class FileManagement {
                 int year = Integer.parseInt(birthday[2]);
                 LocalDate birthDate = LocalDate.of(day, month, year);
                 UUID uuidFromString = UUID.fromString(lineArray[0]);
-                studentList.add(new Student(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]), null, null,
-                    new Birthday(birthDate)));
+                SchoolClass schoolClass = new SchoolClass(new ClassName(lineArray[lineArray.length - 1]), new Description(""),
+                    new Level(""), null, new ArrayList<>());
+                Student student = new Student(uuidFromString, new FirstName(lineArray[1]), new LastName(lineArray[2]), null, null,
+                    new Birthday(birthDate), schoolClass);
+
+                studentList.add(student);
             }
         }
         return studentList;
@@ -251,8 +267,11 @@ public class FileManagement {
                     int year = Integer.parseInt(birthday[2]);
                     LocalDate birthDate = LocalDate.of(day, month, year);
                     UUID uuidFromString = UUID.fromString(lineArray[0]);
-                    studentList.add(new Student(uuidFromString, new Name(lineArray[1]), new Name(lineArray[2]), null, null,
-                        new Birthday(birthDate)));
+                    SchoolClass schoolClass = new SchoolClass(new ClassName(lineArray[lineArray.length - 1]), new Description(""),
+                        new Level(""), null, new ArrayList<>());
+                    Student student = new Student(uuidFromString, new FirstName(lineArray[1]), new LastName(lineArray[2]), null, null,
+                        new Birthday(birthDate), schoolClass);
+                    studentList.add(student);
                 }
             }
         }
@@ -271,6 +290,7 @@ public class FileManagement {
      * @return a list of school classes
      * @throws IOException
      */
+    @SuppressWarnings("CyclomaticComplexity")
     public List<SchoolClass> importClasses(String path, List<Teacher> teacherList, List<Student> students) throws IOException {
         String line;
         List<SchoolClass> schoolClasses = new ArrayList<>();
@@ -284,7 +304,7 @@ public class FileManagement {
             for (Teacher teacher : teacherList) {
                 if (teacher.getNumber().toString().equals(lineArray[THREE])) {
                     teacherInArray = new Teacher(teacher.getNumber(), teacher.getFirstName(), teacher.getLastName(),
-                        teacher.getPhone(), teacher.getAdress(), teacher.getBirthday());
+                        teacher.getPhone(), teacher.getAdress(), teacher.getBirthday(), null);
                 }
             }
             List<Student> studentFromFile = new ArrayList<>();
@@ -296,8 +316,16 @@ public class FileManagement {
                 }
             }
             if (lineArray[FOUR].equals(CLASS)) {
-                schoolClasses.add(new SchoolClass(new Name(lineArray[0]), new Description(lineArray[2]), new Level(lineArray[1]),
-                    teacherInArray, studentFromFile));
+                if (teacherInArray == null) {
+                    SchoolClass schoolClass = new SchoolClass(new ClassName(lineArray[0]), new Description(lineArray[2]),
+                        new Level(lineArray[1]), teacherInArray, studentFromFile);
+                    schoolClasses.add(schoolClass);
+                } else {
+                    SchoolClass schoolClass = new SchoolClass(new ClassName(lineArray[0]), new Description(lineArray[2]),
+                        new Level(lineArray[1]), new Teacher(), studentFromFile);
+                    schoolClasses.add(schoolClass);
+                    teacherInArray.changeSchoolClass(schoolClass);
+                }
             }
         }
         return schoolClasses;
@@ -314,7 +342,7 @@ public class FileManagement {
                 for (Teacher teacher : teacherList) {
                     if (teacher.getNumber().toString().equals(lineArray[THREE])) {
                         teacherInArray = new Teacher(teacher.getNumber(), teacher.getFirstName(),
-                            teacher.getLastName(), teacher.getPhone(), teacher.getAdress(), teacher.getBirthday());
+                            teacher.getLastName(), teacher.getPhone(), teacher.getAdress(), teacher.getBirthday(), null);
                     }
                 }
                 List<Student> studentFromFile = new ArrayList<>();
@@ -327,8 +355,11 @@ public class FileManagement {
                 }
 
                 if (lineArray[FOUR].equals(CLASS)) {
-                    schoolClasses.add(new SchoolClass(new Name(lineArray[0]), new Description(lineArray[2]), new Level(lineArray[1]),
-                        teacherInArray, studentFromFile));
+                    SchoolClass schoolClass = new SchoolClass(new ClassName(lineArray[0]), new Description(lineArray[2]),
+                        new Level(lineArray[1]), teacherInArray, studentFromFile);
+                    schoolClasses.add(schoolClass);
+                    assert teacherInArray != null;
+                    teacherInArray.changeSchoolClass(schoolClass);
                 }
             }
         }
@@ -516,7 +547,7 @@ public class FileManagement {
         int iterator = 0;
 
         if (human.getAdress() == null) {
-            human.addAdress(new Adress().randomAdress());
+            human.addAdress(new Address().randomAdress());
         }
         for (int j = FIVE; j < human.getAdress().size() + FIVE; j++) {
             data[j] = addAdressFromHuman(iterator, human);
@@ -537,7 +568,7 @@ public class FileManagement {
     @SuppressWarnings("checkstyle:Indentation")
     private String addAdressFromHuman(int iterator, Human human) {
         if (human.getAdress() == null) {
-            human.addAdress(new Adress().randomAdress());
+            human.addAdress(new Address().randomAdress());
         }
         String data =
             human.getAdress().iterator().next().getStreet().getStreet().getValue() + BLANKSPACE
@@ -635,11 +666,11 @@ public class FileManagement {
             long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
             LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
 
-            Adress adress = new Adress();
-            Set<Adress> set = new HashSet<>();
-            set.add(adress.randomAdress());
+            Address address = new Address();
+            Set<Address> set = new HashSet<>();
+            set.add(address.randomAdress());
 
-            Teacher teacher = new Teacher(generateId(), randomFirstName(), randomLastName(), phones, set, new Birthday(randomDate));
+            Teacher teacher = new Teacher(generateId(), randomFirstName(), randomLastName(), phones, set, new Birthday(randomDate), null);
             teacherList.add(teacher);
         }
         return teacherList;
@@ -656,11 +687,11 @@ public class FileManagement {
             long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
             LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
 
-            Adress adress = new Adress();
-            Set<Adress> set = new HashSet<>();
-            set.add(adress.randomAdress());
+            Address address = new Address();
+            Set<Address> set = new HashSet<>();
+            set.add(address.randomAdress());
 
-            studentList.add(new Student(generateId(), randomFirstName(), randomLastName(), phones, set, new Birthday(randomDate)));
+            studentList.add(new Student(generateId(), randomFirstName(), randomLastName(), phones, set, new Birthday(randomDate), null));
         }
         return studentList;
     }
@@ -675,10 +706,15 @@ public class FileManagement {
             for (int j = 0; j < (studentList.size() / THREE); j++) {
                 studentArrayList.add(studentList.get(j));
             }
-            SchoolClass cl = new SchoolClass(new Name(c + String.valueOf(randomInt)),
+            SchoolClass cl = new SchoolClass(new ClassName(c + String.valueOf(randomInt)),
                 new Description("Dies ist eine Schulklasse."), new Level(String.valueOf(randomInt)),
                 teacherList.get(randomInt), studentList);
+
+            teacherList.get(randomInt).changeSchoolClass(cl);
             schoolClasses.add(cl);
+            for (Student student : cl.getStudents()) {
+                student.changeSchoolClass(cl);
+            }
         }
         return schoolClasses;
     }

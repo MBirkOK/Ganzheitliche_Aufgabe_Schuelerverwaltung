@@ -11,9 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.openknowlegde.ausbildung.mbi.domain.actions.Actions;
+import de.openknowlegde.ausbildung.mbi.domain.actions.ClassActions;
+import de.openknowlegde.ausbildung.mbi.domain.actions.StudentActions;
+import de.openknowlegde.ausbildung.mbi.domain.actions.TeacherActions;
+import de.openknowlegde.ausbildung.mbi.domain.person.FirstName;
+import de.openknowlegde.ausbildung.mbi.domain.person.LastName;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
-import de.openknowlegde.ausbildung.mbi.domain.persondata.Name;
 import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 import de.openknowlegde.ausbildung.mbi.domain.testdata.FirstNames;
 import de.openknowlegde.ausbildung.mbi.domain.testdata.LastNames;
@@ -116,12 +121,12 @@ public class Main {
     }
 
 
-    static Name randomFirstName() {
-        return new Name(FirstNames.values()[RANDOM.nextInt(FirstNames.values().length)].name());
+    static FirstName randomFirstName() {
+        return new FirstName(FirstNames.values()[RANDOM.nextInt(FirstNames.values().length)].name());
     }
 
-    static Name randomLastName() {
-        return new Name(LastNames.values()[RANDOM.nextInt(LastNames.values().length)].name());
+    static LastName randomLastName() {
+        return new LastName(LastNames.values()[RANDOM.nextInt(LastNames.values().length)].name());
     }
 
     private static void startUp() throws IOException {
@@ -158,13 +163,13 @@ public class Main {
         for (Map.Entry<String, List<String>> entry : map.entrySet()) {
             String action = input.substring(entry.getKey().length());
             if (input.substring(0, entry.getKey().length()).compareTo(CLASS) == 0) {
-                Actions.classActions(action, schoolClassList, students, teachers);
+                ClassActions.classActions(action, schoolClassList, students, teachers);
                 break;
             } else if (input.substring(0, entry.getKey().length()).compareTo(TEACHER) == 0) {
-                Actions.teacherActions(action, teachers);
+                TeacherActions.teacherActions(action, teachers);
                 break;
             } else if (input.substring(0, entry.getKey().length()).compareTo(STUDENT) == 0) {
-                Actions.studentActions(action, students);
+                StudentActions.studentActions(action, students);
                 break;
             }
         }
