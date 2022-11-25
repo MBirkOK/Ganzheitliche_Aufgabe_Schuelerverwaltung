@@ -8,21 +8,21 @@ public class Street implements Comparable&lt;Street&gt; {
 
     FirstName street;
 
-<span class="nc" id="L11">    public Street(FirstName street) {</span>
-<span class="nc" id="L12">        this.street = street;</span>
-<span class="nc" id="L13">    }</span>
+<span class="fc" id="L11">    public Street(FirstName street) {</span>
+<span class="fc" id="L12">        this.street = street;</span>
+<span class="fc" id="L13">    }</span>
 
     public FirstName getStreet() {
-<span class="nc" id="L16">        return street;</span>
+<span class="fc" id="L16">        return street;</span>
     }
 
     public FirstName changeStreet(FirstName updatedStreet) {
-<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (this.street.valid(updatedStreet.getValue())) {</span>
-<span class="nc" id="L21">            this.street = updatedStreet;</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        if (this.street.valid(updatedStreet.getValue())) {</span>
+<span class="fc" id="L21">            this.street = updatedStreet;</span>
         } else {
 <span class="nc" id="L23">            throw new IllegalArgumentException(&quot;Name nicht valide.&quot;);</span>
         }
-<span class="nc" id="L25">        return new FirstName(this.street.getValue());</span>
+<span class="fc" id="L25">        return new FirstName(this.street.getValue());</span>
     }
 
     public Street fromString(String newStreet) {

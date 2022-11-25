@@ -6,19 +6,19 @@ public class CityName implements Comparable&lt;CityName&gt; {
 
     private String value;
 
-<span class="nc" id="L9">    public CityName(String name) {</span>
-<span class="nc" id="L10">        this.value = name;</span>
-<span class="nc" id="L11">    }</span>
+<span class="fc" id="L9">    public CityName(String name) {</span>
+<span class="fc" id="L10">        this.value = name;</span>
+<span class="fc" id="L11">    }</span>
 
     public String getValue() {
-<span class="nc" id="L14">        return value;</span>
+<span class="fc" id="L14">        return value;</span>
     }
 
     public void changeValue(String newValue) {
-<span class="nc bnc" id="L18" title="All 2 branches missed.">        if (valid(newValue)) {</span>
-<span class="nc" id="L19">            this.value = newValue;</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        if (valid(newValue)) {</span>
+<span class="fc" id="L19">            this.value = newValue;</span>
         }
-<span class="nc" id="L21">    }</span>
+<span class="fc" id="L21">    }</span>
 
     /**
      * Validates the name in the context of the Value Object. It is checked whether the name contains an empty input or
@@ -29,7 +29,7 @@ public class CityName implements Comparable&lt;CityName&gt; {
      * @return a boolean to indicate the name
      */
     public boolean valid(String validValue) {
-<span class="nc bnc" id="L32" title="All 4 branches missed.">        return !(validValue.isEmpty()) &amp;&amp; validValue.trim().length() &gt; 2;</span>
+<span class="pc bpc" id="L32" title="2 of 4 branches missed.">        return !(validValue.isEmpty()) &amp;&amp; validValue.trim().length() &gt; 2;</span>
     }
 
     @Override

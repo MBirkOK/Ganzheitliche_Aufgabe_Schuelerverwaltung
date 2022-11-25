@@ -9,12 +9,12 @@ import java.util.Objects;
 public class FirstName implements Comparable&lt;FirstName&gt; {
     private String value;
 
-<span class="nc" id="L12">    public FirstName(String name) {</span>
-<span class="nc" id="L13">        this.value = name;</span>
-<span class="nc" id="L14">    }</span>
+<span class="fc" id="L12">    public FirstName(String name) {</span>
+<span class="fc" id="L13">        this.value = name;</span>
+<span class="fc" id="L14">    }</span>
 
     public String getValue() {
-<span class="nc" id="L17">        return value;</span>
+<span class="fc" id="L17">        return value;</span>
     }
 
     public void changeValue(String newValue) {
@@ -32,7 +32,7 @@ public class FirstName implements Comparable&lt;FirstName&gt; {
      * @return a boolean to indicate the name
      */
     public boolean valid(String validValue) {
-<span class="nc bnc" id="L35" title="All 4 branches missed.">        return !(validValue.isEmpty()) &amp;&amp; validValue.trim().length() &gt; 2;</span>
+<span class="pc bpc" id="L35" title="2 of 4 branches missed.">        return !(validValue.isEmpty()) &amp;&amp; validValue.trim().length() &gt; 2;</span>
     }
 
     @Override

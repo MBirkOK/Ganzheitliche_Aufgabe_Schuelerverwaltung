@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class City implements Comparable<City> {
 
-    CityName name;
+    private CityName name;
 
     public City(CityName name) {
         this.name = name;

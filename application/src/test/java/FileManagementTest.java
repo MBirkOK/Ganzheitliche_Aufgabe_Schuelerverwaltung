@@ -2,11 +2,9 @@ import de.openknowledge.ausbildung.mbi.userinteraction.FileManagement;
 import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
+
 import org.junit.Assert;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +24,6 @@ public class FileManagementTest {
 
     private List<SchoolClass> classTestData = new ArrayList<>();
 
-    @BeforeEach
     public void generateTestDataFile() throws IOException {
         teacherTestData = fileManagement.generateTeachers();
         studentTestData = fileManagement.generateStudents();
@@ -35,7 +32,7 @@ public class FileManagementTest {
         fileManagement.exportClasses(classTestData, CSV_FILE_PATH, "UTF-8", teacherTestData, studentTestData);
     }
 
-    @AfterEach public void deleteCSVFileTestData() {
+    public void deleteCSVFileTestData() {
         File file = new File(CSV_FILE_PATH + "\\testdata.csv");
         file.delete();
     }
@@ -46,7 +43,8 @@ public class FileManagementTest {
      *
      * @throws IOException
      */
-    @Test public void importTeacherAndCheckOnLengthTest() throws IOException {
+
+    public void importTeacherAndCheckOnLengthTest() throws IOException {
         List<Teacher> imported = fileManagement.importTeachers(CSV_FILE_PATH + "\\testdata.csv");
         Assert.assertFalse(imported.isEmpty());
         Assert.assertEquals(teacherTestData.size(), imported.size());
@@ -58,7 +56,7 @@ public class FileManagementTest {
      *
      * @throws IOException
      */
-    @Test public void importStudentAndCheckOnLengthTest() throws IOException {
+    public void testImportStudentAndCheckOnLengthTest() throws IOException {
         List<Student> imported = fileManagement.importStudents(CSV_FILE_PATH + "\\testdata.csv");
         Assert.assertFalse(imported.isEmpty());
         Assert.assertEquals(studentTestData.size(), imported.size());
@@ -70,8 +68,7 @@ public class FileManagementTest {
      *
      * @throws IOException
      */
-    @Test
-    public void importClassesAndCheckOnLengthTest() throws IOException {
+    public void testImportClassesAndCheckOnLengthTest() throws IOException {
         List<Student> importedStudents = fileManagement.importStudents(CSV_FILE_PATH + "\\testdata.csv");
         List<Teacher> importedTeachers = fileManagement.importTeachers(CSV_FILE_PATH + "\\testdata.csv");
         List<SchoolClass> imported = fileManagement.importClasses(CSV_FILE_PATH + "\\testdata.csv", importedTeachers, importedStudents);

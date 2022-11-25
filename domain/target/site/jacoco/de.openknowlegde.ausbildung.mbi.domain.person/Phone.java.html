@@ -16,11 +16,11 @@ public class Phone implements Comparable&lt;Phone&gt; {
 
     private String number;
 
-<span class="nc" id="L19">    private char[] accepted = &quot;()/\\- &quot;.toCharArray();</span>
+<span class="fc" id="L19">    private char[] accepted = &quot;()/\\- &quot;.toCharArray();</span>
 
-<span class="nc" id="L21">    public Phone(String number) {</span>
-<span class="nc" id="L22">        split(number);</span>
-<span class="nc" id="L23">    }</span>
+<span class="fc" id="L21">    public Phone(String number) {</span>
+<span class="fc" id="L22">        split(number);</span>
+<span class="fc" id="L23">    }</span>
 
     public String getCountry() {
 <span class="nc" id="L26">        return country;</span>
@@ -31,7 +31,7 @@ public class Phone implements Comparable&lt;Phone&gt; {
 <span class="nc" id="L31">    }</span>
 
     public String getNumber() {
-<span class="nc" id="L34">        return number;</span>
+<span class="fc" id="L34">        return number;</span>
     }
 
     public void setNumber(String number) {
@@ -46,14 +46,14 @@ public class Phone implements Comparable&lt;Phone&gt; {
      * @return a String array, that contains the area code and the number
      */
     public String[] split(String toSplit) {
-<span class="nc" id="L49">        char plus = '+';</span>
-<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (toSplit.toCharArray()[0] == plus) {</span>
+<span class="fc" id="L49">        char plus = '+';</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if (toSplit.toCharArray()[0] == plus) {</span>
 <span class="nc" id="L51">            this.country = toSplit.substring(0, 2);</span>
 <span class="nc" id="L52">            this.number = toSplit.substring(THREE);</span>
 <span class="nc" id="L53">            return new String[]{this.country, this.number};</span>
         }
-<span class="nc" id="L55">        this.number = number;</span>
-<span class="nc" id="L56">        return new String[]{number};</span>
+<span class="fc" id="L55">        this.number = toSplit;</span>
+<span class="fc" id="L56">        return new String[]{number};</span>
     }
 
     private boolean validate(Phone ignoredNumber) {

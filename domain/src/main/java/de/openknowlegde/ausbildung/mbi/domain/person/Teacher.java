@@ -19,7 +19,7 @@ public class Teacher extends Human {
     }
     public Teacher() {
         super(UUID.randomUUID(), new FirstName(""), new LastName(""), new HashSet<>(), new HashSet<>(), new Birthday(LocalDate.now()),
-            new SchoolClass());
+            null);
     }
 
     /**

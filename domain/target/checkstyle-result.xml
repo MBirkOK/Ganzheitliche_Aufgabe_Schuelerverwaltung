@@ -1,3 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.29">
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\actions\Actions.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\adressing\City.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\adressing\CityName.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\adressing\HouseNumber.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\adressing\Street.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\adressing\Zip.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\person\Address.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\person\Birthday.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\person\FirstName.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\person\Human.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\person\LastName.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\person\Phone.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\person\Student.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\person\StudentActions.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\person\Teacher.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\person\TeacherActions.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\school\ClassActions.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\school\ClassName.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\school\Description.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\school\Level.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\school\SchoolClass.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\testdata\CityList.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\testdata\FirstNames.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\testdata\LastNames.java">
+</file>
+<file name="C:\Users\Marius.Birk\IdeaProjects\Ganzheitliche Aufgabe Schuelerverwaltung\domain\src\main\java\de\openknowlegde\ausbildung\mbi\domain\testdata\StreetList.java">
+</file>
 </checkstyle>

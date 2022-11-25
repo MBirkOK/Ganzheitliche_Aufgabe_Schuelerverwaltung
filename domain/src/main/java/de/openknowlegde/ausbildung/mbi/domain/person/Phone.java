@@ -52,7 +52,7 @@ public class Phone implements Comparable<Phone> {
             this.number = toSplit.substring(THREE);
             return new String[]{this.country, this.number};
         }
-        this.number = number;
+        this.number = toSplit;
         return new String[]{number};
     }
 

@@ -1,4 +1,4 @@
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.Assert;
 
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ import de.openknowlegde.ausbildung.mbi.domain.testdata.LastNames;
 public class HumanTest {
 
     @Test
-    public void createEmptySchoolClassTest(){
+    public void testCreateEmptySchoolClassTest(){
         SchoolClass schoolClass = new SchoolClass();
 
         Assert.assertTrue(schoolClass.getName().getValue().isEmpty());
@@ -32,7 +32,7 @@ public class HumanTest {
     }
 
     @Test
-    public void createFilledSchoolClassTest(){
+    public void testCreateFilledSchoolClassTest(){
         Teacher teacher = new Teacher(UUID.randomUUID(), new FirstName("Hans"), new LastName("Georg"), new HashSet<>(),
             new HashSet<>(), new Birthday(LocalDate.now()), null);
         List<Student> studentList = new ArrayList<>();
