@@ -15,12 +15,12 @@ import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 public class Teacher extends Human {
     public Teacher(UUID number, FirstName firstName, LastName lastName, Set&lt;Phone&gt; phone, Set&lt;Address&gt; addresses,
         Birthday birthday, SchoolClass schoolClass) {
-<span class="fc" id="L18">        super(number, firstName, lastName, phone, addresses, birthday, schoolClass);</span>
-<span class="fc" id="L19">    }</span>
+<span class="nc" id="L18">        super(number, firstName, lastName, phone, addresses, birthday, schoolClass);</span>
+<span class="nc" id="L19">    }</span>
     public Teacher() {
-<span class="fc" id="L21">        super(UUID.randomUUID(), new FirstName(&quot;&quot;), new LastName(&quot;&quot;), new HashSet&lt;&gt;(), new HashSet&lt;&gt;(), new Birthday(LocalDate.now()),</span>
+<span class="nc" id="L21">        super(UUID.randomUUID(), new FirstName(&quot;&quot;), new LastName(&quot;&quot;), new HashSet&lt;&gt;(), new HashSet&lt;&gt;(), new Birthday(LocalDate.now()),</span>
             null);
-<span class="fc" id="L23">    }</span>
+<span class="nc" id="L23">    }</span>
 
     /**
      * Overwrites the compareTo method from the Comparable Interface, that is used in Human.

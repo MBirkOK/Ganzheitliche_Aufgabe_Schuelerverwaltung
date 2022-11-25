@@ -23,7 +23,7 @@ public class Address {
     //Random zip code from 1 to 9999
     private static final int UPPER = 9999;
 
-<span class="fc" id="L26">    private static final SecureRandom RANDOM = new SecureRandom();</span>
+<span class="nc" id="L26">    private static final SecureRandom RANDOM = new SecureRandom();</span>
 
     private Street street;
 
@@ -42,12 +42,12 @@ public class Address {
      * @param zipcode     postal code where the place is
      * @param city        city name to the postal code
      */
-<span class="fc" id="L45">    public Address(Street street, HouseNumber houseNumber, Zip zipcode, City city) {</span>
-<span class="fc" id="L46">        this.street = street;</span>
-<span class="fc" id="L47">        this.houseNumber = houseNumber;</span>
-<span class="fc" id="L48">        this.zipcode = zipcode;</span>
-<span class="fc" id="L49">        this.city = city;</span>
-<span class="fc" id="L50">    }</span>
+<span class="nc" id="L45">    public Address(Street street, HouseNumber houseNumber, Zip zipcode, City city) {</span>
+<span class="nc" id="L46">        this.street = street;</span>
+<span class="nc" id="L47">        this.houseNumber = houseNumber;</span>
+<span class="nc" id="L48">        this.zipcode = zipcode;</span>
+<span class="nc" id="L49">        this.city = city;</span>
+<span class="nc" id="L50">    }</span>
 
     /**
      * Empty constructor. It creates an empty Adress to the person.
@@ -56,7 +56,7 @@ public class Address {
 <span class="nc" id="L56">    }</span>
 
     public Street getStreet() {
-<span class="fc" id="L59">        return street;</span>
+<span class="nc" id="L59">        return street;</span>
     }
 
     public Street changeStreet(Street updatedStreet) {
@@ -65,7 +65,7 @@ public class Address {
     }
 
     public HouseNumber getHouseNumber() {
-<span class="fc" id="L68">        return houseNumber;</span>
+<span class="nc" id="L68">        return houseNumber;</span>
     }
 
     public HouseNumber changeHouseNumber(HouseNumber updatedHouseNumber) {
@@ -74,7 +74,7 @@ public class Address {
     }
 
     public Zip getZipcode() {
-<span class="fc" id="L77">        return zipcode;</span>
+<span class="nc" id="L77">        return zipcode;</span>
     }
 
     public Zip changeZipcode(Zip updatedZip) {
@@ -83,7 +83,7 @@ public class Address {
     }
 
     public City getCity() {
-<span class="fc" id="L86">        return city;</span>
+<span class="nc" id="L86">        return city;</span>
     }
 
     public City changeCity(City updatedCity) {

@@ -32,24 +32,24 @@ public class SchoolClass implements Comparable&lt;SchoolClass&gt; {
      * @param teacher     the primary teacher of the class
      * @param students    a list of students in the class
      */
-<span class="fc" id="L35">    public SchoolClass(ClassName name, Description description, Level level, Teacher teacher, List&lt;Student&gt; students) {</span>
-<span class="fc" id="L36">        this.name = name;</span>
-<span class="fc" id="L37">        this.description = description;</span>
-<span class="fc" id="L38">        this.level = level;</span>
-<span class="fc" id="L39">        this.teacher = teacher;</span>
-<span class="fc" id="L40">        this.students = students;</span>
-<span class="fc" id="L41">    }</span>
+<span class="nc" id="L35">    public SchoolClass(ClassName name, Description description, Level level, Teacher teacher, List&lt;Student&gt; students) {</span>
+<span class="nc" id="L36">        this.name = name;</span>
+<span class="nc" id="L37">        this.description = description;</span>
+<span class="nc" id="L38">        this.level = level;</span>
+<span class="nc" id="L39">        this.teacher = teacher;</span>
+<span class="nc" id="L40">        this.students = students;</span>
+<span class="nc" id="L41">    }</span>
 
-<span class="fc" id="L43">    public SchoolClass() {</span>
-<span class="fc" id="L44">        this.name = new ClassName(&quot;&quot;);</span>
-<span class="fc" id="L45">        this.description = new Description(&quot;&quot;);</span>
-<span class="fc" id="L46">        this.level = new Level(&quot;&quot;);</span>
-<span class="fc" id="L47">        this.teacher = new Teacher();</span>
-<span class="fc" id="L48">        this.students = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L49">    }</span>
+<span class="nc" id="L43">    public SchoolClass() {</span>
+<span class="nc" id="L44">        this.name = new ClassName(&quot;&quot;);</span>
+<span class="nc" id="L45">        this.description = new Description(&quot;&quot;);</span>
+<span class="nc" id="L46">        this.level = new Level(&quot;&quot;);</span>
+<span class="nc" id="L47">        this.teacher = new Teacher();</span>
+<span class="nc" id="L48">        this.students = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L49">    }</span>
 
     public ClassName getName() {
-<span class="fc" id="L52">        return name;</span>
+<span class="nc" id="L52">        return name;</span>
     }
 
     public void setName(ClassName name) {
@@ -57,7 +57,7 @@ public class SchoolClass implements Comparable&lt;SchoolClass&gt; {
 <span class="nc" id="L57">    }</span>
 
     public Description getDescription() {
-<span class="fc" id="L60">        return description;</span>
+<span class="nc" id="L60">        return description;</span>
     }
 
     public void setDescription(Description description) {
@@ -87,7 +87,7 @@ public class SchoolClass implements Comparable&lt;SchoolClass&gt; {
     }
 
     public List&lt;Student&gt; getStudents() {
-<span class="fc" id="L90">        return students;</span>
+<span class="nc" id="L90">        return students;</span>
     }
 
     public List&lt;Student&gt; changeStudents(List&lt;Student&gt; updatingStudents) {
