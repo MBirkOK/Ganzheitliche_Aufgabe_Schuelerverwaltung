@@ -4,11 +4,11 @@ import java.security.SecureRandom;
 import java.util.Objects;
 
 import de.openknowlegde.ausbildung.mbi.domain.adressing.City;
-import de.openknowlegde.ausbildung.mbi.domain.adressing.CityName;
-import de.openknowlegde.ausbildung.mbi.domain.adressing.HouseNumber;
-import de.openknowlegde.ausbildung.mbi.domain.adressing.Street;
-import de.openknowlegde.ausbildung.mbi.domain.adressing.Zip;
 import de.openknowlegde.ausbildung.mbi.domain.testdata.CityList;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.CityName;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.Zip;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.Street;
+import de.openknowlegde.ausbildung.mbi.domain.adressing.HouseNumber;
 import de.openknowlegde.ausbildung.mbi.domain.testdata.StreetList;
 
 
