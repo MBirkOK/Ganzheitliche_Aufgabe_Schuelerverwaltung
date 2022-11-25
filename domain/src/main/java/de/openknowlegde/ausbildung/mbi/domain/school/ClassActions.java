@@ -1,4 +1,4 @@
-package de.openknowlegde.ausbildung.mbi.domain.actions;
+package de.openknowlegde.ausbildung.mbi.domain.school;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,10 +9,6 @@ import java.util.Locale;
 
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
-import de.openknowlegde.ausbildung.mbi.domain.school.ClassName;
-import de.openknowlegde.ausbildung.mbi.domain.school.Description;
-import de.openknowlegde.ausbildung.mbi.domain.school.Level;
-import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 
 @SuppressWarnings("checkstyle:RegexpSingleline")
 public class ClassActions {

@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Map;
 
 import de.openknowlegde.ausbildung.mbi.domain.actions.Actions;
-import de.openknowlegde.ausbildung.mbi.domain.actions.ClassActions;
-import de.openknowlegde.ausbildung.mbi.domain.actions.StudentActions;
-import de.openknowlegde.ausbildung.mbi.domain.actions.TeacherActions;
 import de.openknowlegde.ausbildung.mbi.domain.person.FirstName;
 import de.openknowlegde.ausbildung.mbi.domain.person.LastName;
 import de.openknowlegde.ausbildung.mbi.domain.person.Student;
+import de.openknowlegde.ausbildung.mbi.domain.person.StudentActions;
 import de.openknowlegde.ausbildung.mbi.domain.person.Teacher;
+import de.openknowlegde.ausbildung.mbi.domain.person.TeacherActions;
+import de.openknowlegde.ausbildung.mbi.domain.school.ClassActions;
 import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
 import de.openknowlegde.ausbildung.mbi.domain.testdata.FirstNames;
 import de.openknowlegde.ausbildung.mbi.domain.testdata.LastNames;

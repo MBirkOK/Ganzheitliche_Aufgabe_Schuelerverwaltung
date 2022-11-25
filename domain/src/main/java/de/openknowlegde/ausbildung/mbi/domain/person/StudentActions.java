@@ -1,10 +1,10 @@
-package de.openknowlegde.ausbildung.mbi.domain.actions;
+package de.openknowlegde.ausbildung.mbi.domain.person;
 
 import static de.openknowlegde.ausbildung.mbi.domain.actions.Actions.whichPerson;
 import static de.openknowlegde.ausbildung.mbi.domain.actions.Actions.whichPersonalData;
-import static de.openknowlegde.ausbildung.mbi.domain.actions.ClassActions.printTableStudentList;
-import static de.openknowlegde.ausbildung.mbi.domain.actions.ClassActions.redundant;
-import static de.openknowlegde.ausbildung.mbi.domain.actions.TeacherActions.inputPersonalData;
+import static de.openknowlegde.ausbildung.mbi.domain.school.ClassActions.printTableStudentList;
+import static de.openknowlegde.ausbildung.mbi.domain.school.ClassActions.redundant;
+import static de.openknowlegde.ausbildung.mbi.domain.person.TeacherActions.inputPersonalData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,11 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import de.openknowlegde.ausbildung.mbi.domain.person.Address;
-import de.openknowlegde.ausbildung.mbi.domain.person.FirstName;
-import de.openknowlegde.ausbildung.mbi.domain.person.LastName;
-import de.openknowlegde.ausbildung.mbi.domain.person.Phone;
-import de.openknowlegde.ausbildung.mbi.domain.person.Student;
+import de.openknowlegde.ausbildung.mbi.domain.actions.Actions;
 
 @SuppressWarnings("checkstyle:RegexpSingleline")
 public class StudentActions {

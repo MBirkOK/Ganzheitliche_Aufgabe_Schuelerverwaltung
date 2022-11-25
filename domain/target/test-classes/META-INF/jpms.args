@@ -1,0 +1,4 @@
+--patch-module
+domain=_
+--add-reads
+domain=ALL-UNNAMED

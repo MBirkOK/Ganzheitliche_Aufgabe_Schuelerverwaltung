@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Street.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">domain</a> &gt; <a href="index.source.html" class="el_package">de.openknowlegde.ausbildung.mbi.domain.adressing</a> &gt; <span class="el_source">Street.java</span></div><h1>Street.java</h1><pre class="source lang-java linenums">package de.openknowlegde.ausbildung.mbi.domain.adressing;
+
+import java.util.Objects;
+
+import de.openknowlegde.ausbildung.mbi.domain.person.FirstName;
+
+public class Street implements Comparable&lt;Street&gt; {
+
+    FirstName street;
+
+<span class="nc" id="L11">    public Street(FirstName street) {</span>
+<span class="nc" id="L12">        this.street = street;</span>
+<span class="nc" id="L13">    }</span>
+
+    public FirstName getStreet() {
+<span class="nc" id="L16">        return street;</span>
+    }
+
+    public FirstName changeStreet(FirstName updatedStreet) {
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (this.street.valid(updatedStreet.getValue())) {</span>
+<span class="nc" id="L21">            this.street = updatedStreet;</span>
+        } else {
+<span class="nc" id="L23">            throw new IllegalArgumentException(&quot;Name nicht valide.&quot;);</span>
+        }
+<span class="nc" id="L25">        return new FirstName(this.street.getValue());</span>
+    }
+
+    public Street fromString(String newStreet) {
+<span class="nc" id="L29">        return new Street(new FirstName(newStreet));</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L35">            return true;</span>
+        }
+<span class="nc bnc" id="L37" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L38">            return false;</span>
+        }
+<span class="nc" id="L40">        Street streetOne = (Street)o;</span>
+<span class="nc" id="L41">        return Objects.equals(street, streetOne.street);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L46">        return Objects.hash(street);</span>
+    }
+
+
+    @Override
+    public int compareTo(Street that) {
+<span class="nc" id="L52">        return this.getStreet().compareTo(that.getStreet());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

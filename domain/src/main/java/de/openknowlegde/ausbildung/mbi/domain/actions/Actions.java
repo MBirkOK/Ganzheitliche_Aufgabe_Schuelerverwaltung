@@ -1,7 +1,7 @@
 package de.openknowlegde.ausbildung.mbi.domain.actions;
 
-import static de.openknowlegde.ausbildung.mbi.domain.actions.ClassActions.TABLEFORMAT;
-import static de.openknowlegde.ausbildung.mbi.domain.actions.ClassActions.printTableStudentList;
+import static de.openknowlegde.ausbildung.mbi.domain.school.ClassActions.TABLEFORMAT;
+import static de.openknowlegde.ausbildung.mbi.domain.school.ClassActions.printTableStudentList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class Actions {
      * @return new Adress of the given Information
      * @throws IOException
      */
-    static Address createAdress(String street, String houseNumber, String zipCode, String city) throws IOException {
+    public static Address createAdress(String street, String houseNumber, String zipCode, String city) throws IOException {
         try {
             return new Address(new Street(new FirstName(street)), new HouseNumber(Integer.parseInt(houseNumber)),
                 new Zip(Integer.parseInt(zipCode)), new City(new CityName(city)));
@@ -79,7 +79,7 @@ public class Actions {
         }
     }
 
-    static Birthday createBirthday(String[] birthday) throws IOException {
+    public static Birthday createBirthday(String[] birthday) throws IOException {
         try {
             return new Birthday(LocalDate.of(Integer.parseInt(birthday[0]), Integer.parseInt(birthday[1]), Integer.parseInt(birthday[2])));
         } catch (Exception e) {
