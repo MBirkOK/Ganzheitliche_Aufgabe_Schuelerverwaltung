@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TeacherActions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">domain</a> &gt; <a href="index.source.html" class="el_package">de.openknowlegde.ausbildung.mbi.domain.person</a> &gt; <span class="el_source">TeacherActions.java</span></div><h1>TeacherActions.java</h1><pre class="source lang-java linenums">package de.openknowlegde.ausbildung.mbi.domain.person;
+
+import static de.openknowlegde.ausbildung.mbi.domain.actions.Actions.ASK_FOR_LAST_NAME;
+import static de.openknowlegde.ausbildung.mbi.domain.actions.Actions.inputAdress;
+import static de.openknowlegde.ausbildung.mbi.domain.actions.Actions.inputBirthday;
+import static de.openknowlegde.ausbildung.mbi.domain.actions.Actions.inputPhone;
+import static de.openknowlegde.ausbildung.mbi.domain.actions.Actions.whichPerson;
+import static de.openknowlegde.ausbildung.mbi.domain.actions.Actions.whichPersonalData;
+import static de.openknowlegde.ausbildung.mbi.domain.school.ClassActions.printTableTeacherList;
+import static de.openknowlegde.ausbildung.mbi.domain.school.ClassActions.redundant;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+import de.openknowlegde.ausbildung.mbi.domain.actions.Actions;
+
+@SuppressWarnings(&quot;checkstyle:RegexpSingleline&quot;)
+<span class="nc" id="L23">public class TeacherActions {</span>
+    private static final String LIST = &quot;list&quot;;
+
+    private static final String ADD = &quot;add&quot;;
+    private static final String EDIT = &quot;edit&quot;;
+
+    private static final String DELETE = &quot;delete&quot;;
+    private static final String BLANKSPACE = &quot; &quot;;
+    private static final int THREE = 3;
+    private static final int FOUR = 4;
+    private static final int FIVE = 5;
+
+    //Used for seperation in the birthday parts
+    private static final String MINUS = &quot;-&quot;;
+<span class="nc" id="L37">    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));</span>
+
+
+    /**
+     * This Method is used to interact with the user, if actions are needed where teachers are involved. List, adding, deleting or
+     * modifiying are the options to use.
+     *
+     * @param action      action, that will be perfomed
+     * @param teacherList list of teachers at the school
+     * @return
+     * @throws IOException
+     */
+
+    public static List&lt;Teacher&gt; teacherActions(String action, List&lt;Teacher&gt; teacherList) throws IOException {
+<span class="nc bnc" id="L51" title="All 5 branches missed.">        switch (action) {</span>
+            case LIST:
+<span class="nc" id="L53">                printTableTeacherList(teacherList);</span>
+<span class="nc" id="L54">                break;</span>
+            case ADD:
+<span class="nc" id="L56">                String[] inputs = inputPersonalData();</span>
+
+<span class="nc" id="L58">                Set&lt;Phone&gt; phone = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L59">                phone.add(new Phone(inputs[2]));</span>
+
+<span class="nc" id="L61">                Set&lt;Address&gt; addresses = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L62">                String[] adressParts = inputs[THREE].split(BLANKSPACE);</span>
+<span class="nc" id="L63">                addresses.add(Actions.createAdress(adressParts[0], adressParts[1], adressParts[2], adressParts[THREE]));</span>
+
+<span class="nc" id="L65">                String[] birthday = inputs[FOUR].split(MINUS);</span>
+<span class="nc" id="L66">                teacherList.add(new Teacher(UUID.randomUUID(), new FirstName(inputs[0]), new LastName(inputs[1]), phone, addresses,</span>
+<span class="nc" id="L67">                    Actions.createBirthday(birthday), null));</span>
+
+<span class="nc" id="L69">                return teacherList;</span>
+            case DELETE:
+<span class="nc" id="L71">                Student input = (Student)whichPerson(null, teacherList);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                if (redundant()) {</span>
+<span class="nc" id="L73">                    teacherList.remove(input);</span>
+                }
+<span class="nc" id="L75">                return teacherList;</span>
+            case EDIT:
+<span class="nc" id="L77">                Teacher teacher = (Teacher)whichPerson(null, teacherList);</span>
+<span class="nc" id="L78">                String[] data = whichPersonalData();</span>
+<span class="nc" id="L79">                teacher.changePersonalData(data[0], data[1]);</span>
+<span class="nc" id="L80">                break;</span>
+            default:
+                break;
+        }
+<span class="nc" id="L84">        return teacherList;</span>
+    }
+
+    /**
+     * This method is intended to simplify the entry of personal data. Especially this method would like to have a valid first name and
+     * surname first. Also, a valid phone number, address and date of birth should be entered. All these data are returned in a form of an
+     * array.
+     *
+     * @return an array with all personal data
+     * @throws IOException
+     */
+    public static String[] inputPersonalData() throws IOException {
+<span class="nc" id="L96">        String[] data = new String[FIVE];</span>
+<span class="nc" id="L97">        System.out.println(&quot;Bitte gib den Vornamen ein:&quot;);</span>
+<span class="nc" id="L98">        data[0] = reader.readLine();</span>
+<span class="nc" id="L99">        System.out.println(ASK_FOR_LAST_NAME);</span>
+<span class="nc" id="L100">        data[1] = reader.readLine();</span>
+<span class="nc" id="L101">        data[2] = inputPhone();</span>
+<span class="nc" id="L102">        data[THREE] = inputAdress();</span>
+<span class="nc" id="L103">        data[FOUR] = inputBirthday();</span>
+
+<span class="nc" id="L105">        return data;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -3,14 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <dependencies>
-        <dependency>
-            <groupId>Ausbildungsaufgabe</groupId>
-            <artifactId>domain</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-
     <parent>
         <artifactId>Ganzheitliche_Aufgabe_Schuelerverwaltung</artifactId>
         <groupId>Ausbildungsaufgabe</groupId>
@@ -22,11 +14,19 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>Ausbildungsaufgabe</groupId>
+            <artifactId>domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -39,7 +39,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>de.openknowledge.ausbildung.mbi.application.Main</mainClass>
+                            <mainClass>de.openknowledge.ausbildung.mbi.userinteraction.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -52,7 +52,7 @@
                     <transformers>
                         <!-- add Main-Class to manifest file -->
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>de.openknowledge.ausbildung.mbi.application.Main</mainClass>
+                            <mainClass>de.openknowledge.ausbildung.mbi.userinteraction.Main</mainClass>
                         </transformer>
                     </transformers>
                 </configuration>
@@ -65,6 +65,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 

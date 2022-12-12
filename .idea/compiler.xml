@@ -11,9 +11,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="application" target="11" />
-      <module name="domain" target="11" />
-      <module name="Ganzheitliche Aufgabe Schuelerverwaltung" target="11" />
+      <module name="application" target="9" />
+      <module name="domain" target="9" />
+      <module name="Ganzheitliche Aufgabe Schuelerverwaltung" target="9" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FirstName.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">domain</a> &gt; <a href="index.source.html" class="el_package">de.openknowlegde.ausbildung.mbi.domain.person</a> &gt; <span class="el_source">FirstName.java</span></div><h1>FirstName.java</h1><pre class="source lang-java linenums">package de.openknowlegde.ausbildung.mbi.domain.person;
+
+import java.util.Objects;
+
+/**
+ * The class Name is used as a Value Object , which just holds the information about the specific name.
+ */
+
+public class FirstName implements Comparable&lt;FirstName&gt; {
+    private String value;
+
+<span class="fc" id="L12">    public FirstName(String name) {</span>
+<span class="fc" id="L13">        this.value = name;</span>
+<span class="fc" id="L14">    }</span>
+
+    public String getValue() {
+<span class="fc" id="L17">        return value;</span>
+    }
+
+    public void changeValue(String newValue) {
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (valid(newValue)) {</span>
+<span class="nc" id="L22">            this.value = newValue;</span>
+        }
+<span class="nc" id="L24">    }</span>
+
+    /**
+     * Validates the name in the context of the Value Object. It is checked whether the name contains an empty input or
+     * &lt;p&gt;
+     * only blanks.
+     *
+     * @param validValue value for the name
+     * @return a boolean to indicate the name
+     */
+    public boolean valid(String validValue) {
+<span class="pc bpc" id="L35" title="2 of 4 branches missed.">        return !(validValue.isEmpty()) &amp;&amp; validValue.trim().length() &gt; 2;</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L41">            return true;</span>
+        }
+<span class="nc bnc" id="L43" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L44">            return false;</span>
+        }
+<span class="nc" id="L46">        FirstName firstName = (FirstName)o;</span>
+<span class="nc" id="L47">        return Objects.equals(value, firstName.value);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L52">        return Objects.hash(value);</span>
+    }
+
+
+    @Override
+    public int compareTo(FirstName that) {
+<span class="nc" id="L58">        return this.getValue().compareTo(that.getValue());</span>
+    }
+
+    private boolean validate(FirstName firstName) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (firstName.getValue() == null) {</span>
+<span class="nc" id="L63">            return false;</span>
+        }
+<span class="nc" id="L65">        return true;</span>
+    }
+
+    public boolean isValid() {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (this.valid(this.value)) {</span>
+<span class="nc" id="L70">            return true;</span>
+        }
+<span class="nc" id="L72">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

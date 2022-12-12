@@ -19,7 +19,7 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>de.openknowledge.ausbildung.mbi.application.Main</mainClass>
+              <mainClass>de.openknowledge.ausbildung.mbi.userinteraction.Main</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -38,16 +38,25 @@
         <configuration>
           <transformers>
             <transformer>
-              <mainClass>de.openknowledge.ausbildung.mbi.application.Main</mainClass>
+              <mainClass>de.openknowledge.ausbildung.mbi.userinteraction.Main</mainClass>
             </transformer>
           </transformers>
         </configuration>
       </plugin>
     </plugins>
   </build>
-  <properties>
-    <maven.compiler.target>11</maven.compiler.target>
-    <maven.compiler.source>11</maven.compiler.source>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>hamcrest-core</artifactId>
+          <groupId>org.hamcrest</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
 </project>

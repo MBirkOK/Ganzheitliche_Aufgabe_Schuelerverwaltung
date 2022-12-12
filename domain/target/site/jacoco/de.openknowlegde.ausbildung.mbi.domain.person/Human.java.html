@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Human.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">domain</a> &gt; <a href="index.source.html" class="el_package">de.openknowlegde.ausbildung.mbi.domain.person</a> &gt; <span class="el_source">Human.java</span></div><h1>Human.java</h1><pre class="source lang-java linenums">package de.openknowlegde.ausbildung.mbi.domain.person;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+
+import de.openknowlegde.ausbildung.mbi.domain.school.SchoolClass;
+
+/**
+ * Human is used to abstract the classes of student and teacher. Both mentioned classes contain the same information and differ only in
+ * their naming/types. Any information held in human is still very important. By abstracting the classes it is possible that in the classes
+ * student and teacher only the super constructor has to be called.
+ */
+
+public abstract class Human implements Comparable&lt;Human&gt; {
+
+    private final UUID number;
+
+    private final FirstName firstName;
+
+    private final LastName lastName;
+
+    private Set&lt;Phone&gt; phone;
+
+    private Set&lt;Address&gt; addresses;
+
+    private final Birthday birthday;
+
+    private SchoolClass schoolClass;
+
+    /**
+     * Standard constructor for the human class. This constructor is used indirectly for teachers and students and gets the most important
+     * information.
+     *
+     * @param number         used as an ID
+     * @param firstName firstname of the person
+     * @param lastName  last name of the person
+     * @param phone          a list of phone numbers of the person
+     * @param addresses      a list of adresses of the person
+     * @param birthday       a birthday as LocalDate standart
+     * @param schoolClass   the schoolClass, the person belongs to
+     */
+    public Human(UUID number, FirstName firstName, LastName lastName, Set&lt;Phone&gt; phone, Set&lt;Address&gt; addresses,
+<span class="nc" id="L45">        Birthday birthday, SchoolClass schoolClass) {</span>
+<span class="nc" id="L46">        this.number = number;</span>
+<span class="nc" id="L47">        this.firstName = firstName;</span>
+<span class="nc" id="L48">        this.lastName = lastName;</span>
+<span class="nc" id="L49">        this.phone = phone;</span>
+<span class="nc" id="L50">        this.addresses = addresses;</span>
+<span class="nc" id="L51">        this.birthday = birthday;</span>
+<span class="nc" id="L52">        this.schoolClass = schoolClass;</span>
+<span class="nc" id="L53">    }</span>
+
+    public UUID getNumber() {
+<span class="nc" id="L56">        return number;</span>
+    }
+
+    public FirstName getFirstName() {
+<span class="nc" id="L60">        return firstName;</span>
+    }
+
+    public LastName getLastName() {
+<span class="nc" id="L64">        return lastName;</span>
+    }
+
+    public Set&lt;Phone&gt; getPhone() {
+<span class="nc" id="L68">        return phone;</span>
+    }
+
+    /**
+     * This method first checks if a valid List of phone numbers exists and then adds the given number.
+     *
+     * @param additionalPhone phone number to be added
+     */
+    public void addPhone(Phone additionalPhone) {
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (this.phone == null) {</span>
+<span class="nc" id="L78">            this.phone = new HashSet&lt;&gt;();</span>
+        }
+<span class="nc" id="L80">        this.phone.add(additionalPhone);</span>
+<span class="nc" id="L81">    }</span>
+
+    protected void deletePhone(Phone toRemove) {
+<span class="nc" id="L84">        this.phone.remove(toRemove);</span>
+<span class="nc" id="L85">    }</span>
+
+    public Set&lt;Address&gt; getAdress() {
+<span class="nc" id="L88">        return addresses;</span>
+    }
+
+    /**
+     * This method first checks if a valid List of adress' exists and then adds the given adress.
+     *
+     * @param additionalAddress adress to be added
+     */
+    public void addAdress(Address additionalAddress) {
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (this.addresses == null) {</span>
+<span class="nc" id="L98">            this.addresses = new HashSet&lt;&gt;();</span>
+        }
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (!this.addresses.contains(additionalAddress)) {</span>
+<span class="nc" id="L101">            this.addresses.add(additionalAddress);</span>
+        }
+<span class="nc" id="L103">    }</span>
+
+    protected void deleteAdress(Address toRemove) {
+<span class="nc" id="L106">        this.addresses.remove(toRemove);</span>
+<span class="nc" id="L107">    }</span>
+
+    public Birthday getBirthday() {
+<span class="nc" id="L110">        return birthday;</span>
+    }
+
+    public SchoolClass getSchoolClass() {
+<span class="nc" id="L114">        return schoolClass;</span>
+    }
+
+    public void changeSchoolClass(SchoolClass newSchoolClass) {
+<span class="nc" id="L118">        this.schoolClass = newSchoolClass;</span>
+<span class="nc" id="L119">    }</span>
+
+    /**
+     * In this method, essential data about the person are changed. A distinction is made via the type passed. The first name, last name and
+     * date of birth can be changed.
+     *
+     * @param type  type of data, that will be changed
+     * @param value the new value
+     */
+
+    public void changePersonalData(String type, String value) {
+<span class="nc bnc" id="L130" title="All 3 branches missed.">        switch (type) {</span>
+            case &quot;Vorname&quot;:
+<span class="nc" id="L132">                this.getFirstName().changeValue(value);</span>
+<span class="nc" id="L133">                break;</span>
+            case &quot;Nachname&quot;:
+<span class="nc" id="L135">                this.getLastName().changeValue(value);</span>
+<span class="nc" id="L136">                break;</span>
+            default:
+                break;
+        }
+<span class="nc" id="L140">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L145">            return true;</span>
+        }
+<span class="nc bnc" id="L147" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L148">            return false;</span>
+        }
+<span class="nc" id="L150">        Human human = (Human)o;</span>
+<span class="nc bnc" id="L151" title="All 4 branches missed.">        return Objects.equals(number, human.number) &amp;&amp; Objects.equals(firstName, human.firstName)</span>
+<span class="nc bnc" id="L152" title="All 4 branches missed.">            &amp;&amp; Objects.equals(lastName, human.lastName) &amp;&amp; Objects.equals(phone, human.phone)</span>
+<span class="nc bnc" id="L153" title="All 4 branches missed.">            &amp;&amp; Objects.equals(addresses, human.addresses) &amp;&amp; Objects.equals(birthday, human.birthday);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L158">        return Objects.hash(number, firstName, lastName, phone, addresses, birthday);</span>
+    }
+
+
+    @Override
+    public int compareTo(Human that) {
+<span class="nc" id="L164">        int numberComparison = this.getNumber().compareTo(that.getNumber());</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">        if (numberComparison != 0) {</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">            return numberComparison &lt; 0 ? -1 : 1;</span>
+        }
+
+<span class="nc" id="L169">        int firstNameComparison = this.getFirstName().compareTo(that.getFirstName());</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        if (firstNameComparison != 0) {</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">            return firstNameComparison &lt; 0 ? -1 : 1;</span>
+        }
+
+<span class="nc" id="L174">        return this.getLastName().compareTo(that.getLastName());</span>
+    }
+
+    public boolean validate(Human human) {
+<span class="nc bnc" id="L178" title="All 6 branches missed.">        if (human.getBirthday().toString().isEmpty() || human.getFirstName().isValid() || human.getLastName().isValid()</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">            || areSetsEmpty(human.getAdress(), human.getPhone())) {</span>
+<span class="nc" id="L180">            throw new IllegalArgumentException(&quot;Human nicht valide.&quot;);</span>
+        } else {
+<span class="nc" id="L182">            return true;</span>
+        }
+    }
+
+    public boolean areSetsEmpty(Set&lt;Address&gt; address, Set&lt;Phone&gt; phones) {
+<span class="nc bnc" id="L187" title="All 4 branches missed.">        return address.isEmpty() || phones.isEmpty();</span>
+    }
+
+    public boolean isValid() {
+<span class="nc bnc" id="L191" title="All 2 branches missed.">        if (validate(this)) {</span>
+<span class="nc" id="L192">            return true;</span>
+        }
+<span class="nc" id="L194">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
